@@ -34,4 +34,6 @@ export const TXN_META: Record<TxnType, TxnMeta> = {
   adjustment: { type: "adjustment", title: "Adjustments", singular: "Adjustment", path: "/adjustments", party: null, hasLines: true, side: "internal", statuses: ["open", "closed"] },
   work_order: { type: "work_order", title: "Work orders", singular: "Work order", path: "/work-orders", party: null, hasLines: true, side: "internal", statuses: ["open", "closed"] },
   build: { type: "build", title: "Builds", singular: "Build", path: "/builds", party: null, hasLines: true, side: "internal", statuses: ["open", "closed"] },
+  credit_memo: { type: "credit_memo", title: "Credit memos", singular: "Credit memo", path: "/returns", party: "customer", hasLines: true, side: "sales", statuses: ["open", "closed"] },
+  rental: { type: "rental", title: "Rentals", singular: "Rental", path: "/rentals", party: "customer", hasLines: true, side: "sales", statuses: ["reserved", "out", "returned"] },
 };

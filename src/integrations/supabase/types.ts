@@ -98,7 +98,10 @@ export type Database = {
           branch_code: string
           created_at: string
           created_by: string | null
+          custom_field_labels: Json
+          custom_fields_enabled: boolean
           default_vat_rate: number
+          email_templates: Json
           fiscal_year_start_month: number
           id: string
           invoice_series_end: number | null
@@ -112,8 +115,12 @@ export type Database = {
           printer_accreditation_no: string | null
           printer_name: string | null
           printer_tin: string | null
+          qb_connected: boolean
+          qb_realm_id: string | null
           rdo_code: string | null
           registered_address: string | null
+          relief_column_map: Json
+          shipping_integrations: Json
           tin: string | null
           trade_name: string | null
           vat_registered: boolean
@@ -128,7 +135,10 @@ export type Database = {
           branch_code?: string
           created_at?: string
           created_by?: string | null
+          custom_field_labels?: Json
+          custom_fields_enabled?: boolean
           default_vat_rate?: number
+          email_templates?: Json
           fiscal_year_start_month?: number
           id?: string
           invoice_series_end?: number | null
@@ -142,8 +152,12 @@ export type Database = {
           printer_accreditation_no?: string | null
           printer_name?: string | null
           printer_tin?: string | null
+          qb_connected?: boolean
+          qb_realm_id?: string | null
           rdo_code?: string | null
           registered_address?: string | null
+          relief_column_map?: Json
+          shipping_integrations?: Json
           tin?: string | null
           trade_name?: string | null
           vat_registered?: boolean
@@ -158,7 +172,10 @@ export type Database = {
           branch_code?: string
           created_at?: string
           created_by?: string | null
+          custom_field_labels?: Json
+          custom_fields_enabled?: boolean
           default_vat_rate?: number
+          email_templates?: Json
           fiscal_year_start_month?: number
           id?: string
           invoice_series_end?: number | null
@@ -172,8 +189,12 @@ export type Database = {
           printer_accreditation_no?: string | null
           printer_name?: string | null
           printer_tin?: string | null
+          qb_connected?: boolean
+          qb_realm_id?: string | null
           rdo_code?: string | null
           registered_address?: string | null
+          relief_column_map?: Json
+          shipping_integrations?: Json
           tin?: string | null
           trade_name?: string | null
           vat_registered?: boolean
@@ -808,9 +829,12 @@ export type Database = {
           item_id: string | null
           line_no: number
           lot_id: string | null
+          picked: boolean
+          picked_at: string | null
           qty: number
           qty_fulfilled: number
           qty_invoiced: number
+          qty_received: number
           rate: number
           serial_id: string | null
           source_line_id: string | null
@@ -828,9 +852,12 @@ export type Database = {
           item_id?: string | null
           line_no?: number
           lot_id?: string | null
+          picked?: boolean
+          picked_at?: string | null
           qty?: number
           qty_fulfilled?: number
           qty_invoiced?: number
+          qty_received?: number
           rate?: number
           serial_id?: string | null
           source_line_id?: string | null
@@ -848,9 +875,12 @@ export type Database = {
           item_id?: string | null
           line_no?: number
           lot_id?: string | null
+          picked?: boolean
+          picked_at?: string | null
           qty?: number
           qty_fulfilled?: number
           qty_invoiced?: number
+          qty_received?: number
           rate?: number
           serial_id?: string | null
           source_line_id?: string | null
@@ -910,9 +940,12 @@ export type Database = {
           archived: boolean
           bill_to: string | null
           bir_series_no: number | null
+          carrier: string | null
           company_id: string
           created_at: string
           created_by: string | null
+          credit_memo_txn_id: string | null
+          custom_fields: Json
           discount_amount: number
           discount_rate: number
           discount_type: Database["public"]["Enums"]["discount_kind"]
@@ -923,8 +956,13 @@ export type Database = {
           ewt_atc: string | null
           ewt_rate: number
           id: string
+          input_vat_amount: number
+          input_vat_claimable: boolean
+          job_id: string | null
           location_id: string | null
           notes: string | null
+          packed_at: string | null
+          package_weight: number | null
           parent_txn_id: string | null
           party_id: string | null
           party_name: string | null
@@ -932,18 +970,25 @@ export type Database = {
           percentage_tax_amount: number
           po_reference: string | null
           price_mode: string
+          process_id: string | null
           qb_sync_status: string
           ref_no: string
           restock: boolean
           return_reason: string | null
+          rma_disposition: string | null
+          rma_stage: string | null
           sales_rep: string | null
           sc_pwd_id: string | null
           sc_pwd_name: string | null
           ship_to: string | null
+          shipped_at: string | null
+          shipping_label_url: string | null
+          shipping_provider: string | null
           status: string
           terms: string | null
           to_location_id: string | null
           total: number
+          tracking_no: string | null
           txn_date: string
           type: Database["public"]["Enums"]["txn_type"]
           updated_at: string
@@ -960,9 +1005,12 @@ export type Database = {
           archived?: boolean
           bill_to?: string | null
           bir_series_no?: number | null
+          carrier?: string | null
           company_id: string
           created_at?: string
           created_by?: string | null
+          credit_memo_txn_id?: string | null
+          custom_fields?: Json
           discount_amount?: number
           discount_rate?: number
           discount_type?: Database["public"]["Enums"]["discount_kind"]
@@ -973,8 +1021,13 @@ export type Database = {
           ewt_atc?: string | null
           ewt_rate?: number
           id?: string
+          input_vat_amount?: number
+          input_vat_claimable?: boolean
+          job_id?: string | null
           location_id?: string | null
           notes?: string | null
+          packed_at?: string | null
+          package_weight?: number | null
           parent_txn_id?: string | null
           party_id?: string | null
           party_name?: string | null
@@ -982,18 +1035,25 @@ export type Database = {
           percentage_tax_amount?: number
           po_reference?: string | null
           price_mode?: string
+          process_id?: string | null
           qb_sync_status?: string
           ref_no: string
           restock?: boolean
           return_reason?: string | null
+          rma_disposition?: string | null
+          rma_stage?: string | null
           sales_rep?: string | null
           sc_pwd_id?: string | null
           sc_pwd_name?: string | null
           ship_to?: string | null
+          shipped_at?: string | null
+          shipping_label_url?: string | null
+          shipping_provider?: string | null
           status?: string
           terms?: string | null
           to_location_id?: string | null
           total?: number
+          tracking_no?: string | null
           txn_date?: string
           type: Database["public"]["Enums"]["txn_type"]
           updated_at?: string
@@ -1010,9 +1070,12 @@ export type Database = {
           archived?: boolean
           bill_to?: string | null
           bir_series_no?: number | null
+          carrier?: string | null
           company_id?: string
           created_at?: string
           created_by?: string | null
+          credit_memo_txn_id?: string | null
+          custom_fields?: Json
           discount_amount?: number
           discount_rate?: number
           discount_type?: Database["public"]["Enums"]["discount_kind"]
@@ -1023,8 +1086,13 @@ export type Database = {
           ewt_atc?: string | null
           ewt_rate?: number
           id?: string
+          input_vat_amount?: number
+          input_vat_claimable?: boolean
+          job_id?: string | null
           location_id?: string | null
           notes?: string | null
+          packed_at?: string | null
+          package_weight?: number | null
           parent_txn_id?: string | null
           party_id?: string | null
           party_name?: string | null
@@ -1032,18 +1100,25 @@ export type Database = {
           percentage_tax_amount?: number
           po_reference?: string | null
           price_mode?: string
+          process_id?: string | null
           qb_sync_status?: string
           ref_no?: string
           restock?: boolean
           return_reason?: string | null
+          rma_disposition?: string | null
+          rma_stage?: string | null
           sales_rep?: string | null
           sc_pwd_id?: string | null
           sc_pwd_name?: string | null
           ship_to?: string | null
+          shipped_at?: string | null
+          shipping_label_url?: string | null
+          shipping_provider?: string | null
           status?: string
           terms?: string | null
           to_location_id?: string | null
           total?: number
+          tracking_no?: string | null
           txn_date?: string
           type?: Database["public"]["Enums"]["txn_type"]
           updated_at?: string
@@ -1085,6 +1160,348 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      form_2307_issued: {
+        Row: {
+          amount_withheld: number
+          atc_code: string | null
+          bill_txn_id: string
+          certificate_issued: boolean
+          certificate_no: string | null
+          company_id: string
+          id: string
+          income_base: number
+          issued_date: string | null
+          quarter: string
+          updated_at: string
+          vendor_id: string | null
+        }
+        Insert: {
+          amount_withheld?: number
+          atc_code?: string | null
+          bill_txn_id: string
+          certificate_issued?: boolean
+          certificate_no?: string | null
+          company_id: string
+          id?: string
+          income_base?: number
+          issued_date?: string | null
+          quarter?: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Update: {
+          amount_withheld?: number
+          atc_code?: string | null
+          bill_txn_id?: string
+          certificate_issued?: boolean
+          certificate_no?: string | null
+          company_id?: string
+          id?: string
+          income_base?: number
+          issued_date?: string | null
+          quarter?: string
+          updated_at?: string
+          vendor_id?: string | null
+        }
+        Relationships: []
+      }
+      lot_genealogy: {
+        Row: {
+          build_txn_id: string | null
+          child_lot_id: string | null
+          child_serial_id: string | null
+          company_id: string
+          created_at: string
+          id: string
+          parent_lot_id: string | null
+          parent_serial_id: string | null
+          qty: number
+        }
+        Insert: {
+          build_txn_id?: string | null
+          child_lot_id?: string | null
+          child_serial_id?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          parent_lot_id?: string | null
+          parent_serial_id?: string | null
+          qty?: number
+        }
+        Update: {
+          build_txn_id?: string | null
+          child_lot_id?: string | null
+          child_serial_id?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          parent_lot_id?: string | null
+          parent_serial_id?: string | null
+          qty?: number
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          body: string | null
+          company_id: string
+          created_at: string
+          id: string
+          kind: string
+          link_to: string | null
+          read: boolean
+          title: string
+        }
+        Insert: {
+          body?: string | null
+          company_id: string
+          created_at?: string
+          id?: string
+          kind?: string
+          link_to?: string | null
+          read?: boolean
+          title: string
+        }
+        Update: {
+          body?: string | null
+          company_id?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          link_to?: string | null
+          read?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
+      payment_terms: {
+        Row: {
+          company_id: string
+          created_at: string
+          days: number
+          id: string
+          is_default: boolean
+          name: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          days?: number
+          id?: string
+          is_default?: boolean
+          name: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          days?: number
+          id?: string
+          is_default?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
+      production_jobs: {
+        Row: {
+          company_id: string
+          created_at: string
+          customer_id: string | null
+          due_date: string | null
+          id: string
+          job_no: string
+          name: string
+          notes: string | null
+          start_date: string | null
+          status: string
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          customer_id?: string | null
+          due_date?: string | null
+          id?: string
+          job_no: string
+          name: string
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          customer_id?: string | null
+          due_date?: string | null
+          id?: string
+          job_no?: string
+          name?: string
+          notes?: string | null
+          start_date?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
+      production_process_lines: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          item_id: string
+          process_id: string
+          qty: number
+          role: string
+          uom: string | null
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          item_id: string
+          process_id: string
+          qty?: number
+          role?: string
+          uom?: string | null
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          item_id?: string
+          process_id?: string
+          qty?: number
+          role?: string
+          uom?: string | null
+        }
+        Relationships: []
+      }
+      production_processes: {
+        Row: {
+          archived: boolean
+          code: string
+          company_id: string
+          created_at: string
+          id: string
+          labor_cost: number
+          name: string
+          notes: string | null
+          output_item_id: string | null
+          output_qty: number
+          overhead_cost: number
+        }
+        Insert: {
+          archived?: boolean
+          code: string
+          company_id: string
+          created_at?: string
+          id?: string
+          labor_cost?: number
+          name: string
+          notes?: string | null
+          output_item_id?: string | null
+          output_qty?: number
+          overhead_cost?: number
+        }
+        Update: {
+          archived?: boolean
+          code?: string
+          company_id?: string
+          created_at?: string
+          id?: string
+          labor_cost?: number
+          name?: string
+          notes?: string | null
+          output_item_id?: string | null
+          output_qty?: number
+          overhead_cost?: number
+        }
+        Relationships: []
+      }
+      qb_sync_logs: {
+        Row: {
+          company_id: string
+          details: Json
+          error_message: string | null
+          id: string
+          status: string
+          synced_at: string
+          txn_count: number
+        }
+        Insert: {
+          company_id: string
+          details?: Json
+          error_message?: string | null
+          id?: string
+          status?: string
+          synced_at?: string
+          txn_count?: number
+        }
+        Update: {
+          company_id?: string
+          details?: Json
+          error_message?: string | null
+          id?: string
+          status?: string
+          synced_at?: string
+          txn_count?: number
+        }
+        Relationships: []
+      }
+      rental_bookings: {
+        Row: {
+          company_id: string
+          created_at: string
+          customer_id: string | null
+          customer_name: string
+          daily_rate: number
+          due_in_date: string
+          id: string
+          item_id: string
+          location_id: string | null
+          notes: string | null
+          out_date: string
+          qty: number
+          ref_no: string
+          returned_date: string | null
+          status: string
+          total_amount: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          customer_id?: string | null
+          customer_name: string
+          daily_rate?: number
+          due_in_date: string
+          id?: string
+          item_id: string
+          location_id?: string | null
+          notes?: string | null
+          out_date: string
+          qty?: number
+          ref_no: string
+          returned_date?: string | null
+          status?: string
+          total_amount?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          customer_id?: string | null
+          customer_name?: string
+          daily_rate?: number
+          due_in_date?: string
+          id?: string
+          item_id?: string
+          location_id?: string | null
+          notes?: string | null
+          out_date?: string
+          qty?: number
+          ref_no?: string
+          returned_date?: string | null
+          status?: string
+          total_amount?: number
+        }
+        Relationships: []
       }
       vendors: {
         Row: {
@@ -1206,6 +1623,8 @@ export type Database = {
         | "build"
         | "payment"
         | "adjustment"
+        | "credit_memo"
+        | "rental"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1356,6 +1775,8 @@ export const Constants = {
         "build",
         "payment",
         "adjustment",
+        "credit_memo",
+        "rental",
       ],
     },
   },
