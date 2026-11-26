@@ -301,6 +301,20 @@ function VendorDetail({ vendorId, onBack }: { vendorId: string; onBack: () => vo
     },
   });
 
+  const priceHistQ = useQuery({
+    queryKey: ["vendor_price_history", vendorId],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("transaction_lines")
+        .select("id, description, qty, rate, uom, txn:transactions!inner(ref_no, type, txn_date, party_id)")
+        .eq("txn.party_id", vendorId)
+        .in("txn.type", ["purchase_order", "receipt", "bill"])
+        .order("id", { ascending: false })
+        .limit(100);
+      return data ?? [];
+    },
+  });
+
   const { register, handleSubmit, reset, setValue, formState: { errors, isDirty, isSubmitting } } = useForm<VendorForm>();
   useUnsavedWarning(isDirty);
 
@@ -360,6 +374,7 @@ function VendorDetail({ vendorId, onBack }: { vendorId: string; onBack: () => vo
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="tax">Tax &amp; BIR</TabsTrigger>
           <TabsTrigger value="transactions">Transactions</TabsTrigger>
+          <TabsTrigger value="prices">Price History</TabsTrigger>
         </TabsList>
         <form onSubmit={handleSubmit(onSave)}>
           <TabsContent value="general">
@@ -450,6 +465,40 @@ function VendorDetail({ vendorId, onBack }: { vendorId: string; onBack: () => vo
                     <td className="py-2 text-right">₱{peso(t.total)}</td>
                   </tr>
                 ))}
+              </tbody>
+            </table>
+          </div>
+        </TabsContent>
+        <TabsContent value="prices">
+          <div className="rounded-lg border bg-card p-5">
+            <table className="w-full border-collapse text-sm">
+              <thead>
+                <tr className="border-b text-left text-muted-foreground">
+                  <th className="py-2">Date</th>
+                  <th className="py-2">Doc Ref #</th>
+                  <th className="py-2">Item</th>
+                  <th className="py-2 text-right">Qty</th>
+                  <th className="py-2 text-right">Unit Cost</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(priceHistQ.data ?? []).length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="py-6 text-center text-muted-foreground">No purchase price history yet.</td>
+                  </tr>
+                )}
+                {(priceHistQ.data ?? []).map((p) => {
+                  const t = p.txn as unknown as { ref_no: string; type: string; txn_date: string } | null;
+                  return (
+                    <tr key={p.id} className="border-b">
+                      <td className="py-2">{fmtDate(t?.txn_date)}</td>
+                      <td className="py-2 font-medium">{t?.ref_no ?? "—"} ({labelize(t?.type)})</td>
+                      <td className="py-2">{p.description ?? "—"}</td>
+                      <td className="py-2 text-right">{p.qty} {p.uom ?? ""}</td>
+                      <td className="py-2 text-right font-medium">₱{peso(p.rate)}</td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
