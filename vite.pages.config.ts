@@ -24,11 +24,17 @@ export default defineConfig({
   // whether provided as VITE_SUPABASE_* or SUPABASE_* in CI.
   define: {
     ...(supabaseUrl
-      ? { "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseUrl) }
+      ? {
+          "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(supabaseUrl),
+          "import.meta.env['VITE_SUPABASE_URL']": JSON.stringify(supabaseUrl),
+        }
       : {}),
     ...(supabasePublishableKey
       ? {
           "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(
+            supabasePublishableKey,
+          ),
+          "import.meta.env['VITE_SUPABASE_PUBLISHABLE_KEY']": JSON.stringify(
             supabasePublishableKey,
           ),
         }
@@ -36,6 +42,22 @@ export default defineConfig({
   },
 
   plugins: [
+    // Ensure bracket-notation import.meta.env['VITE_SUPABASE_*'] in generated client.ts
+    // is replaced at build time even when .env is absent (e.g. GitHub Actions).
+    {
+      name: "inject-supabase-env",
+      enforce: "pre",
+      transform(code, id) {
+        if (id.replace(/\\/g, "/").endsWith("src/integrations/supabase/client.ts")) {
+          return code
+            .replace(/import\.meta\.env\['VITE_SUPABASE_URL'\]/g, JSON.stringify(supabaseUrl))
+            .replace(
+              /import\.meta\.env\['VITE_SUPABASE_PUBLISHABLE_KEY'\]/g,
+              JSON.stringify(supabasePublishableKey),
+            );
+        }
+      },
+    },
     // Router plugin: auto code-splitting for TanStack routes.
     TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
     react(),
