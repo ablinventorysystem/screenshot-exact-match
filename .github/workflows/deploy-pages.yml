@@ -43,8 +43,8 @@ jobs:
       - name: Build static SPA for GitHub Pages
         run: npm run build:pages
         env:
-          # GitHub repo uses bare names; map them to VITE_ prefix so Vite
-          # inlines the values into the browser bundle at build time.
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
 
