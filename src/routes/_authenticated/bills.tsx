@@ -49,7 +49,7 @@ export const Route = createFileRoute("/_authenticated/bills")({
   }),
   head: () => ({
     meta: [
-      { title: "Bills — SOS Inventory" },
+      { title: "Bills — ABL Inventory" },
       { name: "description", content: "Vendor bills with 3-way match, Input VAT, EWT, and Form 2307 issued tracker." },
     ],
   }),

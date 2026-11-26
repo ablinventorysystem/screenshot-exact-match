@@ -28,7 +28,7 @@ interface JobRow {
 export const Route = createFileRoute("/_authenticated/jobs")({
   head: () => ({
     meta: [
-      { title: "Jobs — SOS Inventory" },
+      { title: "Jobs — ABL Inventory" },
       { name: "description", content: "Group work orders and track total job costs." },
     ],
   }),

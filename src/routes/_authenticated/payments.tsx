@@ -4,7 +4,7 @@ import { SalesDocList } from "@/components/SalesDocList";
 export const Route = createFileRoute("/_authenticated/payments")({
   head: () => ({
     meta: [
-      { title: "Payments — SOS Inventory" },
+      { title: "Payments — ABL Inventory" },
       { name: "description", content: "Customer payments and EWT withholding records." },
     ],
   }),

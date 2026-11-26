@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/_authenticated/settings/quickbooks")({
   head: () => ({
     meta: [
-      { title: "QuickBooks Online — SOS Inventory" },
+      { title: "QuickBooks Online — ABL Inventory" },
       { name: "description", content: "Simulated QuickBooks Online connection, manual sync, and sync log." },
     ],
   }),

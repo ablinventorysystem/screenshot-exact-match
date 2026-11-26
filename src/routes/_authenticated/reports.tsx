@@ -48,7 +48,7 @@ const REPORT_LIST: { key: ReportKey; label: string }[] = [
 export const Route = createFileRoute("/_authenticated/reports")({
   head: () => ({
     meta: [
-      { title: "Reports — SOS Inventory" },
+      { title: "Reports — ABL Inventory" },
       { name: "description", content: "Business, inventory, fulfillment, and Philippine BIR tax reports." },
     ],
   }),

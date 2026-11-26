@@ -11,7 +11,7 @@ const ROLES: AppRole[] = ["admin", "sales", "warehouse", "accounting", "read_onl
 export const Route = createFileRoute("/_authenticated/settings/users")({
   head: () => ({
     meta: [
-      { title: "Users & Roles — SOS Inventory" },
+      { title: "Users & Roles — ABL Inventory" },
       { name: "description", content: "Manage company members and RLS-enforced roles." },
     ],
   }),

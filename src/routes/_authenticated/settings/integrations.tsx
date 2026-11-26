@@ -19,7 +19,7 @@ interface ShipIntState {
 export const Route = createFileRoute("/_authenticated/settings/integrations")({
   head: () => ({
     meta: [
-      { title: "Integrations — SOS Inventory" },
+      { title: "Integrations — ABL Inventory" },
       { name: "description", content: "ShipStation and UPS shipping label integrations (sandbox/mock ready for Supabase secrets)." },
     ],
   }),

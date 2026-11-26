@@ -40,7 +40,7 @@ export const Route = createFileRoute("/_authenticated/vendors")({
   }),
   head: () => ({
     meta: [
-      { title: "Vendors — SOS Inventory" },
+      { title: "Vendors — ABL Inventory" },
       { name: "description", content: "Supplier master data and tax profiles." },
     ],
   }),

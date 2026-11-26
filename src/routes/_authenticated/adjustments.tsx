@@ -26,7 +26,7 @@ interface AdjRow {
 export const Route = createFileRoute("/_authenticated/adjustments")({
   head: () => ({
     meta: [
-      { title: "Adjustments — SOS Inventory" },
+      { title: "Adjustments — ABL Inventory" },
       { name: "description", content: "Create and post inventory quantity adjustments." },
     ],
   }),

@@ -29,9 +29,9 @@ const SORT_COL: Record<string, string> = { ref: "ref_no", date: "txn_date", cust
 export const Route = createFileRoute("/_authenticated/shipments")({
   head: () => ({
     meta: [
-      { title: "Shipments — SOS Inventory" },
+      { title: "Shipments — ABL Inventory" },
       { name: "description", content: "Customer shipments and delivery receipts." },
-      { property: "og:title", content: "Shipments — SOS Inventory" },
+      { property: "og:title", content: "Shipments — ABL Inventory" },
       { property: "og:description", content: "Customer shipments and delivery receipts." },
     ],
   }),

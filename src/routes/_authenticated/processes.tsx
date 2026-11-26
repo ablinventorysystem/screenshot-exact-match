@@ -34,7 +34,7 @@ interface ProcLine {
 export const Route = createFileRoute("/_authenticated/processes")({
   head: () => ({
     meta: [
-      { title: "Processes — SOS Inventory" },
+      { title: "Processes — ABL Inventory" },
       { name: "description", content: "Reusable production BOM processes with inputs, outputs, co/by-products, labor and overhead." },
     ],
   }),

@@ -4,7 +4,7 @@ import { SalesDocList } from "@/components/SalesDocList";
 export const Route = createFileRoute("/_authenticated/returns")({
   head: () => ({
     meta: [
-      { title: "Returns — SOS Inventory" },
+      { title: "Returns — ABL Inventory" },
       { name: "description", content: "Customer returns and credit memos." },
     ],
   }),

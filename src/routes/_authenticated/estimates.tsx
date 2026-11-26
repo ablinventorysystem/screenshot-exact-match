@@ -29,7 +29,7 @@ interface EstRow {
 export const Route = createFileRoute("/_authenticated/estimates")({
   head: () => ({
     meta: [
-      { title: "Estimates — SOS Inventory" },
+      { title: "Estimates — ABL Inventory" },
       { name: "description", content: "Customer quotes and estimates with one-click conversion to Sales Orders." },
     ],
   }),

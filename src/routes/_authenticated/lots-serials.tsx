@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export const Route = createFileRoute("/_authenticated/lots-serials")({
   head: () => ({
     meta: [
-      { title: "Lots/Serials — SOS Inventory" },
+      { title: "Lots/Serials — ABL Inventory" },
       { name: "description", content: "Browse FEFO lots and serialized inventory." },
     ],
   }),

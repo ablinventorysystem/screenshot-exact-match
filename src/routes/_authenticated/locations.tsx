@@ -33,8 +33,8 @@ export const Route = createFileRoute("/_authenticated/locations")({
   }),
   head: () => ({
     meta: [
-      { title: "Locations — SOS Inventory" },
-      { name: "description", content: "Warehouses and stores in SOS Inventory." },
+      { title: "Locations — ABL Inventory" },
+      { name: "description", content: "Warehouses and stores in ABL Inventory." },
     ],
   }),
   component: LocationsPage,

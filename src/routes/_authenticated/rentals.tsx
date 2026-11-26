@@ -31,7 +31,7 @@ interface RentalRow {
 export const Route = createFileRoute("/_authenticated/rentals")({
   head: () => ({
     meta: [
-      { title: "Rentals — SOS Inventory" },
+      { title: "Rentals — ABL Inventory" },
       { name: "description", content: "Rental equipment bookings, daily rates, availability, and return check-in." },
     ],
   }),

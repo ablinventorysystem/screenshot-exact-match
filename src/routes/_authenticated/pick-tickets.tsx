@@ -50,7 +50,7 @@ function playBeep(ok: boolean) {
 export const Route = createFileRoute("/_authenticated/pick-tickets")({
   head: () => ({
     meta: [
-      { title: "Pick tickets — SOS Inventory" },
+      { title: "Pick tickets — ABL Inventory" },
       { name: "description", content: "Pick, Pack, and Ship warehouse fulfillment with barcode scanning." },
     ],
   }),

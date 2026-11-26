@@ -79,13 +79,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SOS Inventory — Inventory & order management" },
+      { title: "ABL Inventory — Inventory & order management" },
       {
         name: "description",
         content:
           "Inventory, sales, purchasing and fulfillment for Philippine businesses with BIR-ready VAT and EWT.",
       },
-      { property: "og:title", content: "SOS Inventory — Inventory & order management" },
+      { property: "og:title", content: "ABL Inventory — Inventory & order management" },
       {
         property: "og:description",
         content:

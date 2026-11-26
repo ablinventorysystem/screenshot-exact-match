@@ -37,7 +37,7 @@ export const Route = createFileRoute("/_authenticated/invoices")({
   }),
   head: () => ({
     meta: [
-      { title: "Invoices — SOS Inventory" },
+      { title: "Invoices — ABL Inventory" },
       { name: "description", content: "BIR-ready sales invoices, Sales Journal, and Form 2307 tracker." },
     ],
   }),

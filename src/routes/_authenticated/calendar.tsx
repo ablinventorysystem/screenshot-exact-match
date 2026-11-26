@@ -25,7 +25,7 @@ const KIND_STYLE: Record<CalEvent["kind"], { badge: string; name: string }> = {
 export const Route = createFileRoute("/_authenticated/calendar")({
   head: () => ({
     meta: [
-      { title: "Calendar — SOS Inventory" },
+      { title: "Calendar — ABL Inventory" },
       { name: "description", content: "Month and week view of due dates for sales orders, purchase orders, work orders, and rentals." },
     ],
   }),

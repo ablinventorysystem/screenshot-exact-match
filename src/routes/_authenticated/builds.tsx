@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/builds")({
   }),
   head: () => ({
     meta: [
-      { title: "Builds — SOS Inventory" },
+      { title: "Builds — ABL Inventory" },
       { name: "description", content: "Execute builds, consume component lots/serials, produce finished lots, and record genealogy." },
     ],
   }),

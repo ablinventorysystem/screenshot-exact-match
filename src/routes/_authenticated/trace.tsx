@@ -16,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/trace")({
   }),
   head: () => ({
     meta: [
-      { title: "Trace — SOS Inventory" },
+      { title: "Trace — ABL Inventory" },
       { name: "description", content: "Upstream and downstream lot/serial traceability and recall list." },
     ],
   }),

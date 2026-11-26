@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { LifeBuoy } from "lucide-react";
+import { AppLogo } from "@/components/AppLogo";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,10 @@ export const Route = createFileRoute("/auth")({
     typeof s["redirect"] === "string" ? { redirect: s["redirect"] } : {},
   head: () => ({
     meta: [
-      { title: "Sign in — SOS Inventory" },
-      { name: "description", content: "Sign in to your SOS Inventory company account." },
-      { property: "og:title", content: "Sign in — SOS Inventory" },
-      { property: "og:description", content: "Sign in to your SOS Inventory company account." },
+      { title: "Sign in — ABL Inventory" },
+      { name: "description", content: "Sign in to your ABL Inventory company account." },
+      { property: "og:title", content: "Sign in — ABL Inventory" },
+      { property: "og:description", content: "Sign in to your ABL Inventory company account." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -75,8 +75,8 @@ function AuthPage() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm rounded-xl border border-border bg-card p-6">
         <div className="mb-6 flex items-center gap-2.5">
-          <LifeBuoy className="size-9 text-destructive" strokeWidth={2.5} aria-hidden />
-          <span className="text-3xl font-light text-teal">SOS Inventory</span>
+          <AppLogo size="lg" />
+          <span className="text-3xl font-light text-teal">ABL Inventory</span>
         </div>
         {sent ? (
           <div className="space-y-4">

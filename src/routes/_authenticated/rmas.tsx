@@ -33,7 +33,7 @@ const STAGES = ["authorized", "received", "inspected", "restocked", "scrapped", 
 export const Route = createFileRoute("/_authenticated/rmas")({
   head: () => ({
     meta: [
-      { title: "RMAs — SOS Inventory" },
+      { title: "RMAs — ABL Inventory" },
       { name: "description", content: "Return Merchandise Authorizations: authorize, receive, inspect, restock/scrap, and BIR credit memo." },
     ],
   }),

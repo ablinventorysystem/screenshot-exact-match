@@ -15,9 +15,9 @@ import { Switch } from "@/components/ui/switch";
 export const Route = createFileRoute("/_authenticated/settings/tax")({
   head: () => ({
     meta: [
-      { title: "Tax & BIR settings — SOS Inventory" },
+      { title: "Tax & BIR settings — ABL Inventory" },
       { name: "description", content: "VAT registration, TIN, ATP and invoice series settings." },
-      { property: "og:title", content: "Tax & BIR settings — SOS Inventory" },
+      { property: "og:title", content: "Tax & BIR settings — ABL Inventory" },
       { property: "og:description", content: "VAT registration, TIN, ATP and invoice series settings." },
     ],
   }),

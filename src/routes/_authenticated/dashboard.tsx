@@ -12,9 +12,9 @@ import { cn } from "@/lib/utils";
 export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () => ({
     meta: [
-      { title: "Dashboard — SOS Inventory" },
+      { title: "Dashboard — ABL Inventory" },
       { name: "description", content: "Sync, sales and tax overview." },
-      { property: "og:title", content: "Dashboard — SOS Inventory" },
+      { property: "og:title", content: "Dashboard — ABL Inventory" },
       { property: "og:description", content: "Sync, sales and tax overview." },
     ],
   }),

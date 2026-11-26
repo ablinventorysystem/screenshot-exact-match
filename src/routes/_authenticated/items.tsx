@@ -54,7 +54,7 @@ export const Route = createFileRoute("/_authenticated/items")({
   }),
   head: () => ({
     meta: [
-      { title: "Items — SOS Inventory" },
+      { title: "Items — ABL Inventory" },
       { name: "description", content: "Inventory items, lot/serial tracking, cost history, and barcodes." },
     ],
   }),

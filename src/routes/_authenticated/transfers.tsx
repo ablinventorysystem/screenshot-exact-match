@@ -29,7 +29,7 @@ interface TransferRow {
 export const Route = createFileRoute("/_authenticated/transfers")({
   head: () => ({
     meta: [
-      { title: "Transfers — SOS Inventory" },
+      { title: "Transfers — ABL Inventory" },
       { name: "description", content: "Location-to-location stock transfers with partial receive." },
     ],
   }),

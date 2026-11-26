@@ -17,7 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 export const Route = createFileRoute("/_authenticated/settings/")({
   head: () => ({
     meta: [
-      { title: "Settings — SOS Inventory" },
+      { title: "Settings — ABL Inventory" },
       { name: "description", content: "Company profile, number prefixes, payment terms, email templates, and custom fields." },
     ],
   }),

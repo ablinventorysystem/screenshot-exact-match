@@ -27,7 +27,7 @@ interface WoRow {
 export const Route = createFileRoute("/_authenticated/work-orders")({
   head: () => ({
     meta: [
-      { title: "Work orders — SOS Inventory" },
+      { title: "Work orders — ABL Inventory" },
       { name: "description", content: "Production work orders from processes or sales orders." },
     ],
   }),

@@ -47,7 +47,7 @@ export const Route = createFileRoute("/_authenticated/receipts")({
   }),
   head: () => ({
     meta: [
-      { title: "Receipts — SOS Inventory" },
+      { title: "Receipts — ABL Inventory" },
       { name: "description", content: "Receive purchase orders into inventory with lot, expiry, and serial tracking." },
     ],
   }),

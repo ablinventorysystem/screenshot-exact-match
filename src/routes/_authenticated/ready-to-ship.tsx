@@ -31,7 +31,7 @@ interface ReadyLine {
 export const Route = createFileRoute("/_authenticated/ready-to-ship")({
   head: () => ({
     meta: [
-      { title: "Ready to pick/ship — SOS Inventory" },
+      { title: "Ready to pick/ship — ABL Inventory" },
       { name: "description", content: "Open sales order lines with available stock ready for batch pick tickets or shipments." },
     ],
   }),
