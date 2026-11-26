@@ -1206,6 +1206,39 @@ export type Database = {
         }
         Relationships: []
       }
+      maintenance_log: {
+        Row: {
+          action: string
+          company_id: string
+          details: Json
+          id: string
+          option: string | null
+          performed_at: string
+          performed_by: string | null
+          status: string
+        }
+        Insert: {
+          action: string
+          company_id: string
+          details?: Json
+          id?: string
+          option?: string | null
+          performed_at?: string
+          performed_by?: string | null
+          status?: string
+        }
+        Update: {
+          action?: string
+          company_id?: string
+          details?: Json
+          id?: string
+          option?: string | null
+          performed_at?: string
+          performed_by?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       lot_genealogy: {
         Row: {
           build_txn_id: string | null
@@ -1588,6 +1621,11 @@ export type Database = {
         Returns: boolean
       }
       is_company_member: { Args: { _company: string }; Returns: boolean }
+      maintenance_counts: { Args: { p_company_id: string }; Returns: Json }
+      maintenance_reset: {
+        Args: { p_company_id: string; p_option: string; p_reset_bir_series?: boolean }
+        Returns: Json
+      }
       next_doc_number: {
         Args: {
           _company: string
