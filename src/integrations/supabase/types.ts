@@ -92,7 +92,10 @@ export type Database = {
         Row: {
           atp_date_issued: string | null
           atp_no: string | null
+          atp_validity_date: string | null
           atp_warning_threshold: number
+          bir_validity_notice: string
+          branch_code: string
           created_at: string
           created_by: string | null
           default_vat_rate: number
@@ -119,7 +122,10 @@ export type Database = {
         Insert: {
           atp_date_issued?: string | null
           atp_no?: string | null
+          atp_validity_date?: string | null
           atp_warning_threshold?: number
+          bir_validity_notice?: string
+          branch_code?: string
           created_at?: string
           created_by?: string | null
           default_vat_rate?: number
@@ -146,7 +152,10 @@ export type Database = {
         Update: {
           atp_date_issued?: string | null
           atp_no?: string | null
+          atp_validity_date?: string | null
           atp_warning_threshold?: number
+          bir_validity_notice?: string
+          branch_code?: string
           created_at?: string
           created_by?: string | null
           default_vat_rate?: number
@@ -215,6 +224,7 @@ export type Database = {
         Row: {
           archived: boolean
           branch_code: string | null
+          business_style: string | null
           company_id: string
           contact_name: string | null
           created_at: string
@@ -227,6 +237,7 @@ export type Database = {
           registered_address: string | null
           registered_name: string | null
           sc_pwd_id: string | null
+          sc_pwd_name: string | null
           tax_type: Database["public"]["Enums"]["party_tax_type"]
           terms: string | null
           tin: string | null
@@ -235,6 +246,7 @@ export type Database = {
         Insert: {
           archived?: boolean
           branch_code?: string | null
+          business_style?: string | null
           company_id: string
           contact_name?: string | null
           created_at?: string
@@ -247,6 +259,7 @@ export type Database = {
           registered_address?: string | null
           registered_name?: string | null
           sc_pwd_id?: string | null
+          sc_pwd_name?: string | null
           tax_type?: Database["public"]["Enums"]["party_tax_type"]
           terms?: string | null
           tin?: string | null
@@ -255,6 +268,7 @@ export type Database = {
         Update: {
           archived?: boolean
           branch_code?: string | null
+          business_style?: string | null
           company_id?: string
           contact_name?: string | null
           created_at?: string
@@ -267,6 +281,7 @@ export type Database = {
           registered_address?: string | null
           registered_name?: string | null
           sc_pwd_id?: string | null
+          sc_pwd_name?: string | null
           tax_type?: Database["public"]["Enums"]["party_tax_type"]
           terms?: string | null
           tin?: string | null
@@ -313,6 +328,51 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      form_2307_records: {
+        Row: {
+          amount_withheld: number
+          atc_code: string | null
+          certificate_no: string | null
+          certificate_received: boolean
+          company_id: string
+          customer_id: string | null
+          id: string
+          income_base: number
+          payment_txn_id: string
+          quarter: string
+          received_date: string | null
+          updated_at: string
+        }
+        Insert: {
+          amount_withheld?: number
+          atc_code?: string | null
+          certificate_no?: string | null
+          certificate_received?: boolean
+          company_id: string
+          customer_id?: string | null
+          id?: string
+          income_base?: number
+          payment_txn_id: string
+          quarter?: string
+          received_date?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amount_withheld?: number
+          atc_code?: string | null
+          certificate_no?: string | null
+          certificate_received?: boolean
+          company_id?: string
+          customer_id?: string | null
+          id?: string
+          income_base?: number
+          payment_txn_id?: string
+          quarter?: string
+          received_date?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       inventory_levels: {
         Row: {
@@ -370,6 +430,87 @@ export type Database = {
           },
         ]
       }
+      item_bom_lines: {
+        Row: {
+          assembly_item_id: string
+          company_id: string
+          component_item_id: string
+          created_at: string
+          id: string
+          notes: string | null
+          qty: number
+          role: string
+          uom: string | null
+        }
+        Insert: {
+          assembly_item_id: string
+          company_id: string
+          component_item_id: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          qty?: number
+          role?: string
+          uom?: string | null
+        }
+        Update: {
+          assembly_item_id?: string
+          company_id?: string
+          component_item_id?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          qty?: number
+          role?: string
+          uom?: string | null
+        }
+        Relationships: []
+      }
+      item_cost_history: {
+        Row: {
+          company_id: string
+          created_at: string
+          id: string
+          item_id: string
+          lot_id: string | null
+          qty: number
+          running_avg_cost: number
+          serial_id: string | null
+          transaction_id: string | null
+          txn_date: string
+          txn_ref: string | null
+          unit_cost: number
+        }
+        Insert: {
+          company_id: string
+          created_at?: string
+          id?: string
+          item_id: string
+          lot_id?: string | null
+          qty?: number
+          running_avg_cost?: number
+          serial_id?: string | null
+          transaction_id?: string | null
+          txn_date?: string
+          txn_ref?: string | null
+          unit_cost?: number
+        }
+        Update: {
+          company_id?: string
+          created_at?: string
+          id?: string
+          item_id?: string
+          lot_id?: string | null
+          qty?: number
+          running_avg_cost?: number
+          serial_id?: string | null
+          transaction_id?: string | null
+          txn_date?: string
+          txn_ref?: string | null
+          unit_cost?: number
+        }
+        Relationships: []
+      }
       item_lots: {
         Row: {
           company_id: string
@@ -422,8 +563,10 @@ export type Database = {
           id: string
           item_id: string
           location_id: string | null
+          lot_id: string | null
           serial_no: string
           status: string
+          unit_cost: number
         }
         Insert: {
           company_id: string
@@ -431,8 +574,10 @@ export type Database = {
           id?: string
           item_id: string
           location_id?: string | null
+          lot_id?: string | null
           serial_no: string
           status?: string
+          unit_cost?: number
         }
         Update: {
           company_id?: string
@@ -440,8 +585,10 @@ export type Database = {
           id?: string
           item_id?: string
           location_id?: string | null
+          lot_id?: string | null
           serial_no?: string
           status?: string
+          unit_cost?: number
         }
         Relationships: [
           {
@@ -479,6 +626,7 @@ export type Database = {
           description: string | null
           id: string
           name: string
+          preferred_vendor_id: string | null
           price: number
           reorder_point: number | null
           sku: string
@@ -498,6 +646,7 @@ export type Database = {
           description?: string | null
           id?: string
           name: string
+          preferred_vendor_id?: string | null
           price?: number
           reorder_point?: number | null
           sku: string
@@ -517,6 +666,7 @@ export type Database = {
           description?: string | null
           id?: string
           name?: string
+          preferred_vendor_id?: string | null
           price?: number
           reorder_point?: number | null
           sku?: string
@@ -653,6 +803,7 @@ export type Database = {
           amount: number
           company_id: string
           description: string | null
+          discount_rate: number
           id: string
           item_id: string | null
           line_no: number
@@ -662,14 +813,17 @@ export type Database = {
           qty_invoiced: number
           rate: number
           serial_id: string | null
+          source_line_id: string | null
           tax_code_id: string | null
           transaction_id: string
+          uom: string | null
           vat_amount: number
         }
         Insert: {
           amount?: number
           company_id: string
           description?: string | null
+          discount_rate?: number
           id?: string
           item_id?: string | null
           line_no?: number
@@ -679,14 +833,17 @@ export type Database = {
           qty_invoiced?: number
           rate?: number
           serial_id?: string | null
+          source_line_id?: string | null
           tax_code_id?: string | null
           transaction_id: string
+          uom?: string | null
           vat_amount?: number
         }
         Update: {
           amount?: number
           company_id?: string
           description?: string | null
+          discount_rate?: number
           id?: string
           item_id?: string | null
           line_no?: number
@@ -696,8 +853,10 @@ export type Database = {
           qty_invoiced?: number
           rate?: number
           serial_id?: string | null
+          source_line_id?: string | null
           tax_code_id?: string | null
           transaction_id?: string
+          uom?: string | null
           vat_amount?: number
         }
         Relationships: [
@@ -749,6 +908,7 @@ export type Database = {
         Row: {
           amount_due: number
           archived: boolean
+          bill_to: string | null
           bir_series_no: number | null
           company_id: string
           created_at: string
@@ -756,6 +916,8 @@ export type Database = {
           discount_amount: number
           discount_rate: number
           discount_type: Database["public"]["Enums"]["discount_kind"]
+          document_title: string | null
+          drop_ship: boolean
           due_date: string | null
           ewt_amount: number
           ewt_atc: string | null
@@ -768,11 +930,18 @@ export type Database = {
           party_name: string | null
           party_type: string | null
           percentage_tax_amount: number
+          po_reference: string | null
           price_mode: string
           qb_sync_status: string
           ref_no: string
+          restock: boolean
+          return_reason: string | null
+          sales_rep: string | null
           sc_pwd_id: string | null
+          sc_pwd_name: string | null
+          ship_to: string | null
           status: string
+          terms: string | null
           to_location_id: string | null
           total: number
           txn_date: string
@@ -781,12 +950,15 @@ export type Database = {
           vat_amount: number
           vat_exempt_sales: number
           vatable_sales: number
+          void_reason: string | null
           voided: boolean
+          voided_at: string | null
           zero_rated_sales: number
         }
         Insert: {
           amount_due?: number
           archived?: boolean
+          bill_to?: string | null
           bir_series_no?: number | null
           company_id: string
           created_at?: string
@@ -794,6 +966,8 @@ export type Database = {
           discount_amount?: number
           discount_rate?: number
           discount_type?: Database["public"]["Enums"]["discount_kind"]
+          document_title?: string | null
+          drop_ship?: boolean
           due_date?: string | null
           ewt_amount?: number
           ewt_atc?: string | null
@@ -806,11 +980,18 @@ export type Database = {
           party_name?: string | null
           party_type?: string | null
           percentage_tax_amount?: number
+          po_reference?: string | null
           price_mode?: string
           qb_sync_status?: string
           ref_no: string
+          restock?: boolean
+          return_reason?: string | null
+          sales_rep?: string | null
           sc_pwd_id?: string | null
+          sc_pwd_name?: string | null
+          ship_to?: string | null
           status?: string
+          terms?: string | null
           to_location_id?: string | null
           total?: number
           txn_date?: string
@@ -819,12 +1000,15 @@ export type Database = {
           vat_amount?: number
           vat_exempt_sales?: number
           vatable_sales?: number
+          void_reason?: string | null
           voided?: boolean
+          voided_at?: string | null
           zero_rated_sales?: number
         }
         Update: {
           amount_due?: number
           archived?: boolean
+          bill_to?: string | null
           bir_series_no?: number | null
           company_id?: string
           created_at?: string
@@ -832,6 +1016,8 @@ export type Database = {
           discount_amount?: number
           discount_rate?: number
           discount_type?: Database["public"]["Enums"]["discount_kind"]
+          document_title?: string | null
+          drop_ship?: boolean
           due_date?: string | null
           ewt_amount?: number
           ewt_atc?: string | null
@@ -844,11 +1030,18 @@ export type Database = {
           party_name?: string | null
           party_type?: string | null
           percentage_tax_amount?: number
+          po_reference?: string | null
           price_mode?: string
           qb_sync_status?: string
           ref_no?: string
+          restock?: boolean
+          return_reason?: string | null
+          sales_rep?: string | null
           sc_pwd_id?: string | null
+          sc_pwd_name?: string | null
+          ship_to?: string | null
           status?: string
+          terms?: string | null
           to_location_id?: string | null
           total?: number
           txn_date?: string
@@ -857,7 +1050,9 @@ export type Database = {
           vat_amount?: number
           vat_exempt_sales?: number
           vatable_sales?: number
+          void_reason?: string | null
           voided?: boolean
+          voided_at?: string | null
           zero_rated_sales?: number
         }
         Relationships: [
@@ -985,7 +1180,7 @@ export type Database = {
       }
       save_transaction: { Args: { p: Json }; Returns: string }
       seed_company_defaults: { Args: { _company: string }; Returns: undefined }
-      void_transaction: { Args: { _id: string }; Returns: undefined }
+      void_transaction: { Args: { _id: string; _reason?: string | null }; Returns: undefined }
     }
     Enums: {
       app_role: "admin" | "sales" | "warehouse" | "accounting" | "read_only"
