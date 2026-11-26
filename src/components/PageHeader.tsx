@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
+export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string | undefined; actions?: ReactNode }) {
   return (
     <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
       <div>
@@ -12,7 +12,7 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
   );
 }
 
-export function ComingNext({ title, subtitle }: { title: string; subtitle?: string }) {
+export function ComingNext({ title, subtitle }: { title: string; subtitle?: string | undefined }) {
   return (
     <div className="p-6">
       <PageHeader title={title} subtitle={subtitle} />
