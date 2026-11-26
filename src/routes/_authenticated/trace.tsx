@@ -87,6 +87,38 @@ function TracePage() {
         };
       });
 
+      // Production lot/serial genealogy (both directions)
+      if (lot) {
+        const [{ data: parents }, { data: children }] = await Promise.all([
+          supabase.from("lot_genealogy").select("id, qty, parent_lot_id, build_txn_id").eq("company_id", companyId).eq("child_lot_id", lot.id),
+          supabase.from("lot_genealogy").select("id, qty, child_lot_id, build_txn_id").eq("company_id", companyId).eq("parent_lot_id", lot.id),
+        ]);
+        for (const p of parents ?? []) {
+          nodes.push({
+            id: `gen-p-${p.id}`,
+            direction: "upstream",
+            type: "component_lot",
+            ref_no: p.parent_lot_id ? `Lot ${p.parent_lot_id.slice(0, 8)}` : "Component",
+            txn_date: lot.received_date ?? "",
+            party_name: "Production Input",
+            qty: Number(p.qty),
+            status: "consumed",
+          });
+        }
+        for (const c of children ?? []) {
+          nodes.push({
+            id: `gen-c-${c.id}`,
+            direction: "downstream",
+            type: "finished_lot",
+            ref_no: c.child_lot_id ? `Lot ${c.child_lot_id.slice(0, 8)}` : "Finished Good",
+            txn_date: lot.received_date ?? "",
+            party_name: "Production Output",
+            qty: Number(c.qty),
+            status: "produced",
+          });
+        }
+      }
+
       const item = (lot?.item ?? serial?.item) as unknown as { id: string; sku: string; name: string; uom: string } | null;
       return {
         kind: lot ? ("lot" as const) : ("serial" as const),
