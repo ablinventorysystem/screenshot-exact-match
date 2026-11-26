@@ -245,6 +245,7 @@ begin
 end $$;
 
 -- 13. Update void_transaction to accept an optional reason while preserving backwards compatibility
+drop function if exists public.void_transaction(uuid);
 create or replace function public.void_transaction(_id uuid, _reason text default null)
 returns void language plpgsql security definer set search_path = public as $$
 declare v_company uuid;
@@ -268,6 +269,9 @@ begin
     updated_at = now()
   where id = _id;
 end $$;
+
+revoke execute on function public.void_transaction(uuid, text) from public, anon;
+grant execute on function public.void_transaction(uuid, text) to authenticated, service_role;
 
 -- 14. Seed initial cost history for existing items so Profit/Loss and Cost History tabs have baseline data
 insert into public.item_cost_history(company_id, item_id, txn_date, txn_ref, qty, unit_cost, running_avg_cost)

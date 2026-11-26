@@ -452,6 +452,8 @@ function SalesOrderForm({
             vat_amount: taxResult.lines[idx]?.vat ?? 0,
             lot_id: l.lot_id || null,
             serial_id: l.serial_id || null,
+            picked: Boolean((l as { picked?: boolean }).picked),
+            source_line_id: (l as { source_line_id?: string | null }).source_line_id ?? null,
           })),
         },
       });

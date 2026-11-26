@@ -279,6 +279,7 @@ function PurchaseOrderForm({
             uom: l.uom,
             rate: l.rate,
             amount: roundQty(l.qty * l.rate, 2),
+            source_line_id: (l as { source_line_id?: string | null }).source_line_id ?? null,
           })),
         },
       });
