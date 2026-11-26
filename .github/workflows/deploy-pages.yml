@@ -43,8 +43,10 @@ jobs:
       - name: Build static SPA for GitHub Pages
         run: npm run build:pages
         env:
-          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          # GitHub repo uses bare names; map them to VITE_ prefix so Vite
+          # inlines the values into the browser bundle at build time.
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
 
       # SPA fallback: direct navigation to any sub-route will serve index.html
       - name: Create SPA 404 fallback
