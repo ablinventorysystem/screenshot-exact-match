@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LifeBuoy, ChevronDown, Search, Plus, Settings, RefreshCw, Printer, Bell, HelpCircle,
+  LifeBuoy, ChevronDown, Search, Plus, Settings, RefreshCw, Printer, HelpCircle,
   LayoutDashboard, Calendar, Package, ShoppingCart, BadgeDollarSign, Truck, Factory, KeyRound,
   BarChart3, ChevronsLeft, ChevronsRight, Menu, LogOut,
 } from "lucide-react";
@@ -9,6 +9,7 @@ import { CompanyProvider, useCompany } from "@/lib/company";
 import { supabase } from "@/integrations/supabase/client";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { GlobalSearchDialog, NotificationsPopover } from "@/components/GlobalShellTools";
 import { cn } from "@/lib/utils";
 
 type Sub = { title: string; to: string };
@@ -32,7 +33,13 @@ export const NAV: NavItem[] = [
     { title: "Builds", to: "/builds" }, { title: "Processes", to: "/processes" }, { title: "Jobs", to: "/jobs" }, { title: "Work orders", to: "/work-orders" }] },
   { title: "Rentals", icon: KeyRound, children: [{ title: "Rentals", to: "/rentals" }] },
   { title: "Reports", icon: BarChart3, to: "/reports" },
-  { title: "Settings", icon: Settings, to: "/settings" },
+  { title: "Settings", icon: Settings, children: [
+    { title: "Company & Prefixes", to: "/settings" },
+    { title: "Tax & BIR", to: "/settings/tax" },
+    { title: "Users & Roles", to: "/settings/users" },
+    { title: "Integrations", to: "/settings/integrations" },
+    { title: "QuickBooks Online", to: "/settings/quickbooks" },
+  ] },
 ];
 
 const COLLAPSE_KEY = "sos.sidebarCollapsed";
@@ -78,7 +85,7 @@ function SidebarNav({ collapsed, onNavigate }: { collapsed: boolean; onNavigate?
   );
 }
 
-function TopBar({ onMenu }: { onMenu: () => void }) {
+function TopBar({ onMenu, onOpenSearch }: { onMenu: () => void; onOpenSearch: () => void }) {
   const { company, memberships, setCompanyId, fullName, email } = useCompany();
   const initials = (fullName || email || "U").split(/[\s@.]+/).filter(Boolean).slice(0, 2).map((s) => s[0]!.toUpperCase()).join("");
   const iconBtn = "icon-circle h-9 w-9 text-muted-foreground transition-bg hover:bg-muted";
@@ -98,16 +105,25 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
         </DropdownMenuContent>
       </DropdownMenu>
       <div className="ml-auto flex items-center gap-1">
-        <button className={cn(iconBtn, "hidden sm:inline-flex")} aria-label="Search"><Search className="h-5 w-5" /></button>
-        <button className="icon-circle h-8 w-8 bg-teal text-teal-foreground" aria-label="Create new"><Plus className="h-5 w-5" /></button>
+        <button className={iconBtn} onClick={onOpenSearch} aria-label="Search (/)"><Search className="h-5 w-5" /></button>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="icon-circle h-8 w-8 bg-teal text-teal-foreground" aria-label="Create new"><Plus className="h-5 w-5" /></DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Quick create</DropdownMenuLabel>
+            <DropdownMenuItem asChild><Link to="/sales-orders" search={{ id: undefined, isNew: true }}>Sales Order</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link to="/purchase-orders" search={{ id: undefined, isNew: false }}>Purchase Order</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link to="/items" search={{ id: undefined, tab: undefined }}>Item</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link to="/customers" search={{ id: undefined }}>Customer</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link to="/adjustments">Inventory Adjustment</Link></DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild><Link to="/pick-tickets">Warehouse Scanner</Link></DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Link to="/settings" className={cn(iconBtn, "hidden sm:inline-flex")} aria-label="Settings"><Settings className="h-5 w-5" /></Link>
-        <button className={cn(iconBtn, "hidden sm:inline-flex")} aria-label="Sync"><RefreshCw className="h-5 w-5" /></button>
+        <Link to="/settings/quickbooks" className={cn(iconBtn, "hidden sm:inline-flex")} aria-label="QuickBooks Sync"><RefreshCw className="h-5 w-5" /></Link>
         <button className={cn(iconBtn, "hidden md:inline-flex")} aria-label="Print" onClick={() => window.print()}><Printer className="h-5 w-5" /></button>
-        <button className={cn(iconBtn, "relative")} aria-label="Notifications">
-          <Bell className="h-5 w-5" />
-          <span className="absolute -right-1 -top-1 rounded-lg bg-destructive px-1 text-[10px] leading-4 text-destructive-foreground">99+</span>
-        </button>
-        <button className={cn(iconBtn, "hidden md:inline-flex")} aria-label="Help"><HelpCircle className="h-5 w-5" /></button>
+        <NotificationsPopover iconBtnClass={iconBtn} />
+        <Link to="/reports" className={cn(iconBtn, "hidden md:inline-flex")} aria-label="Reports & Help"><HelpCircle className="h-5 w-5" /></Link>
         <DropdownMenu>
           <DropdownMenuTrigger className="icon-circle h-8 w-8 bg-primary text-xs font-medium text-primary-foreground" aria-label="Account">{initials}</DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -124,13 +140,15 @@ function TopBar({ onMenu }: { onMenu: () => void }) {
 export function AppShell({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
   const [drawer, setDrawer] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   useEffect(() => { setCollapsed(localStorage.getItem(COLLAPSE_KEY) === "1"); }, []);
   const toggle = () => setCollapsed((c) => { localStorage.setItem(COLLAPSE_KEY, c ? "0" : "1"); return !c; });
 
   return (
     <CompanyProvider>
       <div className="flex h-screen w-full flex-col">
-        <TopBar onMenu={() => setDrawer(true)} />
+        <TopBar onMenu={() => setDrawer(true)} onOpenSearch={() => setSearchOpen(true)} />
+        <GlobalSearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
         <div className="flex min-h-0 flex-1">
           <aside className={cn("hidden shrink-0 flex-col border-r bg-sidebar md:flex", collapsed ? "w-14" : "w-[200px]")}>
             <SidebarNav collapsed={collapsed} />

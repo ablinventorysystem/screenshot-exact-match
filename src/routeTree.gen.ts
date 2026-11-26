@@ -42,7 +42,10 @@ import { Route as AuthenticatedTransfersRouteImport } from './routes/_authentica
 import { Route as AuthenticatedVendorsRouteImport } from './routes/_authenticated/vendors'
 import { Route as AuthenticatedWorkOrdersRouteImport } from './routes/_authenticated/work-orders'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSettingsIntegrationsRouteImport } from './routes/_authenticated/settings/integrations'
+import { Route as AuthenticatedSettingsQuickbooksRouteImport } from './routes/_authenticated/settings/quickbooks'
 import { Route as AuthenticatedSettingsTaxRouteImport } from './routes/_authenticated/settings/tax'
+import { Route as AuthenticatedSettingsUsersRouteImport } from './routes/_authenticated/settings/users'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -216,10 +219,28 @@ const AuthenticatedSettingsIndexRoute =
     path: '/settings/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSettingsIntegrationsRoute =
+  AuthenticatedSettingsIntegrationsRouteImport.update({
+    id: '/settings/integrations',
+    path: '/settings/integrations',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsQuickbooksRoute =
+  AuthenticatedSettingsQuickbooksRouteImport.update({
+    id: '/settings/quickbooks',
+    path: '/settings/quickbooks',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsTaxRoute =
   AuthenticatedSettingsTaxRouteImport.update({
     id: '/settings/tax',
     path: '/settings/tax',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSettingsUsersRoute =
+  AuthenticatedSettingsUsersRouteImport.update({
+    id: '/settings/users',
+    path: '/settings/users',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -255,7 +276,10 @@ export interface FileRoutesByFullPath {
   '/transfers': typeof AuthenticatedTransfersRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
+  '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
+  '/settings/users': typeof AuthenticatedSettingsUsersRoute
   '/settings/': typeof AuthenticatedSettingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -290,7 +314,10 @@ export interface FileRoutesByTo {
   '/transfers': typeof AuthenticatedTransfersRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
+  '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
+  '/settings/users': typeof AuthenticatedSettingsUsersRoute
   '/settings': typeof AuthenticatedSettingsIndexRoute
 }
 export interface FileRoutesById {
@@ -327,7 +354,10 @@ export interface FileRoutesById {
   '/_authenticated/transfers': typeof AuthenticatedTransfersRoute
   '/_authenticated/vendors': typeof AuthenticatedVendorsRoute
   '/_authenticated/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/_authenticated/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
+  '/_authenticated/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/_authenticated/settings/tax': typeof AuthenticatedSettingsTaxRoute
+  '/_authenticated/settings/users': typeof AuthenticatedSettingsUsersRoute
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -364,7 +394,10 @@ export interface FileRouteTypes {
     | '/transfers'
     | '/vendors'
     | '/work-orders'
+    | '/settings/integrations'
+    | '/settings/quickbooks'
     | '/settings/tax'
+    | '/settings/users'
     | '/settings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -399,7 +432,10 @@ export interface FileRouteTypes {
     | '/transfers'
     | '/vendors'
     | '/work-orders'
+    | '/settings/integrations'
+    | '/settings/quickbooks'
     | '/settings/tax'
+    | '/settings/users'
     | '/settings'
   id:
     | '__root__'
@@ -435,7 +471,10 @@ export interface FileRouteTypes {
     | '/_authenticated/transfers'
     | '/_authenticated/vendors'
     | '/_authenticated/work-orders'
+    | '/_authenticated/settings/integrations'
+    | '/_authenticated/settings/quickbooks'
     | '/_authenticated/settings/tax'
+    | '/_authenticated/settings/users'
     | '/_authenticated/settings/'
   fileRoutesById: FileRoutesById
 }
@@ -678,11 +717,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings/integrations': {
+      id: '/_authenticated/settings/integrations'
+      path: '/settings/integrations'
+      fullPath: '/settings/integrations'
+      preLoaderRoute: typeof AuthenticatedSettingsIntegrationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings/quickbooks': {
+      id: '/_authenticated/settings/quickbooks'
+      path: '/settings/quickbooks'
+      fullPath: '/settings/quickbooks'
+      preLoaderRoute: typeof AuthenticatedSettingsQuickbooksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/tax': {
       id: '/_authenticated/settings/tax'
       path: '/settings/tax'
       fullPath: '/settings/tax'
       preLoaderRoute: typeof AuthenticatedSettingsTaxRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings/users': {
+      id: '/_authenticated/settings/users'
+      path: '/settings/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof AuthenticatedSettingsUsersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -718,7 +778,10 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTransfersRoute: typeof AuthenticatedTransfersRoute
   AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
   AuthenticatedWorkOrdersRoute: typeof AuthenticatedWorkOrdersRoute
+  AuthenticatedSettingsIntegrationsRoute: typeof AuthenticatedSettingsIntegrationsRoute
+  AuthenticatedSettingsQuickbooksRoute: typeof AuthenticatedSettingsQuickbooksRoute
   AuthenticatedSettingsTaxRoute: typeof AuthenticatedSettingsTaxRoute
+  AuthenticatedSettingsUsersRoute: typeof AuthenticatedSettingsUsersRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
 }
 
@@ -752,7 +815,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTransfersRoute: AuthenticatedTransfersRoute,
   AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
   AuthenticatedWorkOrdersRoute: AuthenticatedWorkOrdersRoute,
+  AuthenticatedSettingsIntegrationsRoute:
+    AuthenticatedSettingsIntegrationsRoute,
+  AuthenticatedSettingsQuickbooksRoute: AuthenticatedSettingsQuickbooksRoute,
   AuthenticatedSettingsTaxRoute: AuthenticatedSettingsTaxRoute,
+  AuthenticatedSettingsUsersRoute: AuthenticatedSettingsUsersRoute,
   AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,
 }
 
