@@ -25,9 +25,10 @@ export const Route = createFileRoute("/_authenticated/settings/tax")({
 });
 
 interface F {
-  name: string; trade_name: string; tin: string; rdo_code: string; registered_address: string; zip_code: string;
+  name: string; trade_name: string; tin: string; branch_code: string; rdo_code: string; registered_address: string; zip_code: string;
   vat_registered: boolean; default_vat_rate: number; percentage_tax_rate: number; price_mode: string;
-  atp_no: string; atp_date_issued: string; invoice_series_start: number | null; invoice_series_end: number | null;
+  atp_no: string; atp_date_issued: string; atp_validity_date: string; bir_validity_notice: string;
+  invoice_series_start: number | null; invoice_series_end: number | null;
   invoice_series_next: number | null; atp_warning_threshold: number;
   printer_name: string; printer_tin: string; printer_accreditation_no: string; printer_accreditation_date: string;
 }
@@ -41,10 +42,12 @@ function TaxSettings() {
     if (!company) return;
     const s = (v: string | null) => v ?? "";
     reset({
-      name: company.name, trade_name: s(company.trade_name), tin: s(company.tin), rdo_code: s(company.rdo_code),
+      name: company.name, trade_name: s(company.trade_name), tin: s(company.tin), branch_code: s(company.branch_code) || "00000", rdo_code: s(company.rdo_code),
       registered_address: s(company.registered_address), zip_code: s(company.zip_code), vat_registered: company.vat_registered,
       default_vat_rate: Number(company.default_vat_rate), percentage_tax_rate: Number(company.percentage_tax_rate), price_mode: company.price_mode,
-      atp_no: s(company.atp_no), atp_date_issued: s(company.atp_date_issued), invoice_series_start: company.invoice_series_start,
+      atp_no: s(company.atp_no), atp_date_issued: s(company.atp_date_issued), atp_validity_date: s(company.atp_validity_date),
+      bir_validity_notice: s(company.bir_validity_notice) || "THIS SALES INVOICE SHALL BE VALID FOR FIVE (5) YEARS FROM THE DATE OF ATP",
+      invoice_series_start: company.invoice_series_start,
       invoice_series_end: company.invoice_series_end, invoice_series_next: company.invoice_series_next,
       atp_warning_threshold: company.atp_warning_threshold, printer_name: s(company.printer_name), printer_tin: s(company.printer_tin),
       printer_accreditation_no: s(company.printer_accreditation_no), printer_accreditation_date: s(company.printer_accreditation_date),
@@ -56,10 +59,12 @@ function TaxSettings() {
     const nul = (v: string) => (v.trim() === "" ? null : v.trim());
     const int = (v: unknown) => (v === "" || v === null || Number.isNaN(Number(v)) ? null : Number(v));
     const { error } = await supabase.from("companies").update({
-      name: f.name.trim(), trade_name: nul(f.trade_name), tin: nul(f.tin), rdo_code: nul(f.rdo_code),
+      name: f.name.trim(), trade_name: nul(f.trade_name), tin: nul(f.tin), branch_code: f.branch_code.trim() || "00000", rdo_code: nul(f.rdo_code),
       registered_address: nul(f.registered_address), zip_code: nul(f.zip_code), vat_registered: f.vat_registered,
       default_vat_rate: Number(f.default_vat_rate), percentage_tax_rate: Number(f.percentage_tax_rate), price_mode: f.price_mode,
-      atp_no: nul(f.atp_no), atp_date_issued: nul(f.atp_date_issued), invoice_series_start: int(f.invoice_series_start),
+      atp_no: nul(f.atp_no), atp_date_issued: nul(f.atp_date_issued), atp_validity_date: nul(f.atp_validity_date),
+      bir_validity_notice: f.bir_validity_notice.trim() || "THIS SALES INVOICE SHALL BE VALID FOR FIVE (5) YEARS FROM THE DATE OF ATP",
+      invoice_series_start: int(f.invoice_series_start),
       invoice_series_end: int(f.invoice_series_end), invoice_series_next: int(f.invoice_series_next),
       atp_warning_threshold: Number(f.atp_warning_threshold), printer_name: nul(f.printer_name), printer_tin: nul(f.printer_tin),
       printer_accreditation_no: nul(f.printer_accreditation_no), printer_accreditation_date: nul(f.printer_accreditation_date),
@@ -99,6 +104,7 @@ function TaxSettings() {
                 <Err k="tin" />
               </div>
               <Field k="rdo_code" label="RDO code" rules={{ pattern: { value: /^\d{3}[A-Z]?$/, message: "RDO code is 3 digits, e.g. 113" } }} />
+              <Field k="branch_code" label="Branch code" />
               <Field k="registered_address" label="Registered address" />
               <Field k="zip_code" label="ZIP code" rules={{ pattern: { value: /^\d{4}$/, message: "ZIP code is 4 digits" } }} />
             </div>
@@ -126,6 +132,8 @@ function TaxSettings() {
             <div className={grid}>
               <Field k="atp_no" label="ATP number" />
               <Field k="atp_date_issued" label="ATP date issued" type="date" />
+              <Field k="atp_validity_date" label="ATP validity date" type="date" />
+              <Field k="bir_validity_notice" label="BIR validity notice (invoice footer)" />
               <Field k="invoice_series_start" label="Series start" type="number" rules={{ min: { value: 1, message: "Must be at least 1" } }} />
               <Field k="invoice_series_end" label="Series end" type="number"
                 rules={{ validate: (v: unknown, f: F) => !v || !f.invoice_series_start || Number(v) > Number(f.invoice_series_start) || "End must be after start" }} />
