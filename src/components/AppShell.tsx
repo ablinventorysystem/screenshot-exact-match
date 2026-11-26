@@ -1,11 +1,12 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LifeBuoy, ChevronDown, Search, Plus, Settings, RefreshCw, Printer, HelpCircle,
+  ChevronDown, Search, Plus, Settings, RefreshCw, Printer, HelpCircle,
   LayoutDashboard, Calendar, Package, ShoppingCart, BadgeDollarSign, Truck, Factory, KeyRound,
-  BarChart3, ChevronsLeft, ChevronsRight, Menu, LogOut,
+  BarChart3, ChevronsLeft, ChevronsRight, Menu, LogOut, Wrench,
 } from "lucide-react";
 import { CompanyProvider, useCompany } from "@/lib/company";
+import { AppLogo } from "@/components/AppLogo";
 import { supabase } from "@/integrations/supabase/client";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -40,6 +41,7 @@ export const NAV: NavItem[] = [
     { title: "Integrations", to: "/settings/integrations" },
     { title: "QuickBooks Online", to: "/settings/quickbooks" },
   ] },
+  { title: "Maintenance", icon: Wrench, to: "/maintenance" },
 ];
 
 const COLLAPSE_KEY = "sos.sidebarCollapsed";
@@ -92,7 +94,7 @@ function TopBar({ onMenu, onOpenSearch }: { onMenu: () => void; onOpenSearch: ()
   return (
     <header className="flex h-14 shrink-0 items-center gap-2 border-b bg-surface px-3">
       <button className={cn(iconBtn, "md:hidden")} onClick={onMenu} aria-label="Open menu"><Menu className="h-5 w-5" /></button>
-      <LifeBuoy className="h-7 w-7 shrink-0 text-teal" />
+      <AppLogo size="sm" />
       <DropdownMenu>
         <DropdownMenuTrigger className="flex min-w-0 items-center gap-1 rounded-md px-2 py-1 text-base font-medium transition-bg hover:bg-muted">
           <span className="truncate">{company?.name ?? "Jhaymarts Industries Incorporated"}</span><ChevronDown className="h-4 w-4 shrink-0" />

@@ -24,6 +24,7 @@ import { Route as AuthenticatedItemsRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedJobsRouteImport } from './routes/_authenticated/jobs'
 import { Route as AuthenticatedLocationsRouteImport } from './routes/_authenticated/locations'
 import { Route as AuthenticatedLotsSerialsRouteImport } from './routes/_authenticated/lots-serials'
+import { Route as AuthenticatedMaintenanceRouteImport } from './routes/_authenticated/maintenance'
 import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
 import { Route as AuthenticatedPickTicketsRouteImport } from './routes/_authenticated/pick-tickets'
 import { Route as AuthenticatedProcessesRouteImport } from './routes/_authenticated/processes'
@@ -121,6 +122,12 @@ const AuthenticatedLotsSerialsRoute =
   AuthenticatedLotsSerialsRouteImport.update({
     id: '/lots-serials',
     path: '/lots-serials',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedMaintenanceRoute =
+  AuthenticatedMaintenanceRouteImport.update({
+    id: '/maintenance',
+    path: '/maintenance',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
@@ -259,6 +266,7 @@ export interface FileRoutesByFullPath {
   '/jobs': typeof AuthenticatedJobsRoute
   '/locations': typeof AuthenticatedLocationsRoute
   '/lots-serials': typeof AuthenticatedLotsSerialsRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/pick-tickets': typeof AuthenticatedPickTicketsRoute
   '/processes': typeof AuthenticatedProcessesRoute
@@ -297,6 +305,7 @@ export interface FileRoutesByTo {
   '/jobs': typeof AuthenticatedJobsRoute
   '/locations': typeof AuthenticatedLocationsRoute
   '/lots-serials': typeof AuthenticatedLotsSerialsRoute
+  '/maintenance': typeof AuthenticatedMaintenanceRoute
   '/payments': typeof AuthenticatedPaymentsRoute
   '/pick-tickets': typeof AuthenticatedPickTicketsRoute
   '/processes': typeof AuthenticatedProcessesRoute
@@ -337,6 +346,7 @@ export interface FileRoutesById {
   '/_authenticated/jobs': typeof AuthenticatedJobsRoute
   '/_authenticated/locations': typeof AuthenticatedLocationsRoute
   '/_authenticated/lots-serials': typeof AuthenticatedLotsSerialsRoute
+  '/_authenticated/maintenance': typeof AuthenticatedMaintenanceRoute
   '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/pick-tickets': typeof AuthenticatedPickTicketsRoute
   '/_authenticated/processes': typeof AuthenticatedProcessesRoute
@@ -377,6 +387,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/locations'
     | '/lots-serials'
+    | '/maintenance'
     | '/payments'
     | '/pick-tickets'
     | '/processes'
@@ -415,6 +426,7 @@ export interface FileRouteTypes {
     | '/jobs'
     | '/locations'
     | '/lots-serials'
+    | '/maintenance'
     | '/payments'
     | '/pick-tickets'
     | '/processes'
@@ -454,6 +466,7 @@ export interface FileRouteTypes {
     | '/_authenticated/jobs'
     | '/_authenticated/locations'
     | '/_authenticated/lots-serials'
+    | '/_authenticated/maintenance'
     | '/_authenticated/payments'
     | '/_authenticated/pick-tickets'
     | '/_authenticated/processes'
@@ -589,6 +602,13 @@ declare module '@tanstack/react-router' {
       path: '/lots-serials'
       fullPath: '/lots-serials'
       preLoaderRoute: typeof AuthenticatedLotsSerialsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/maintenance': {
+      id: '/_authenticated/maintenance'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof AuthenticatedMaintenanceRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/payments': {
@@ -761,6 +781,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedJobsRoute: typeof AuthenticatedJobsRoute
   AuthenticatedLocationsRoute: typeof AuthenticatedLocationsRoute
   AuthenticatedLotsSerialsRoute: typeof AuthenticatedLotsSerialsRoute
+  AuthenticatedMaintenanceRoute: typeof AuthenticatedMaintenanceRoute
   AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedPickTicketsRoute: typeof AuthenticatedPickTicketsRoute
   AuthenticatedProcessesRoute: typeof AuthenticatedProcessesRoute
@@ -798,6 +819,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedJobsRoute: AuthenticatedJobsRoute,
   AuthenticatedLocationsRoute: AuthenticatedLocationsRoute,
   AuthenticatedLotsSerialsRoute: AuthenticatedLotsSerialsRoute,
+  AuthenticatedMaintenanceRoute: AuthenticatedMaintenanceRoute,
   AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedPickTicketsRoute: AuthenticatedPickTicketsRoute,
   AuthenticatedProcessesRoute: AuthenticatedProcessesRoute,
