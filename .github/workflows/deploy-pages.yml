@@ -40,6 +40,24 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Verify Supabase environment variables are present
+        run: |
+          URL_SET=$( [ -n "$SUPABASE_URL" ] && echo "true" || echo "false" )
+          KEY_SET=$( [ -n "$SUPABASE_PUBLISHABLE_KEY" ] && echo "true" || echo "false" )
+          URL_LEN=${#SUPABASE_URL}
+          KEY_LEN=${#SUPABASE_PUBLISHABLE_KEY}
+          echo "SUPABASE_URL present=${URL_SET} length=${URL_LEN}"
+          echo "SUPABASE_PUBLISHABLE_KEY present=${KEY_SET} length=${KEY_LEN}"
+          if [ "$URL_SET" = "false" ] || [ "$KEY_SET" = "false" ]; then
+            echo "ERROR: One or more required Supabase environment variables are empty."
+            echo "Check that SUPABASE_URL is set as a Repository Variable and"
+            echo "SUPABASE_PUBLISHABLE_KEY is set as a Repository Secret."
+            exit 1
+          fi
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+
       - name: Build static SPA for GitHub Pages
         run: npm run build:pages
         env:
