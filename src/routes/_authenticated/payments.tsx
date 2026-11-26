@@ -1,14 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ComingNext } from "@/components/PageHeader";
+import { SalesDocList } from "@/components/SalesDocList";
 
 export const Route = createFileRoute("/_authenticated/payments")({
   head: () => ({
     meta: [
       { title: "Payments — SOS Inventory" },
-      { name: "description", content: "Customer payments in SOS Inventory." },
-      { property: "og:title", content: "Payments — SOS Inventory" },
-      { property: "og:description", content: "Customer payments in SOS Inventory." },
+      { name: "description", content: "Customer payments and EWT withholding records." },
     ],
   }),
-  component: () => <ComingNext title="Payments" subtitle="Customer payments" />,
+  component: () => (
+    <SalesDocList
+      type="payment"
+      title="Payments"
+      subtitle="Customer payments and Form 2307 withholding credits"
+    />
+  ),
 });
