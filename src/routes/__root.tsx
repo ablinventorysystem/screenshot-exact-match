@@ -8,9 +8,8 @@ import {
   Scripts,
   type ErrorComponentProps,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, type ReactNode } from "react";
 
-import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/sonner";
@@ -95,7 +94,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
+      // The CSS is already statically linked in index.html for the GitHub Pages SPA build.
+      // HeadContent would inject a second <link> here causing a duplicate request; omit it.
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
@@ -123,14 +123,25 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
 
+  // Debounce invalidations: Supabase can fire SIGNED_IN on the initial session
+  // restore AND again after a token refresh, causing back-to-back router.invalidate()
+  // calls within milliseconds. Guard to run at most once per second.
+  const lastInvalidateRef = useRef(0);
+  const invalidate = useCallback(() => {
+    const now = Date.now();
+    if (now - lastInvalidateRef.current < 1000) return;
+    lastInvalidateRef.current = now;
+    router.invalidate();
+  }, [router]);
+
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event) => {
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
-      router.invalidate();
+      invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
     });
     return () => data.subscription.unsubscribe();
-  }, [router, queryClient]);
+  }, [invalidate, queryClient]);
 
   return (
     <QueryClientProvider client={queryClient}>

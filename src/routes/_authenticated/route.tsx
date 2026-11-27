@@ -5,11 +5,14 @@ import { AppShell } from "@/components/AppShell";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async ({ location }) => {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) {
+    // getSession() reads from localStorage — no network round-trip.
+    // The JWT is kept fresh by Supabase's autoRefreshToken; actual API calls
+    // will fail (401) if the token is ever genuinely invalid.
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) {
       throw redirect({ to: "/auth", search: { redirect: location.href } });
     }
-    return { user: data.user };
+    return { user: data.session.user };
   },
   component: () => (
     <AppShell>

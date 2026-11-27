@@ -5,14 +5,16 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient } from "@tanstack/react-query";
 import { routeTree } from "./routeTree.gen";
 import "./styles.css";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 0,
+      // Keep data fresh for 5 minutes; prevents aggressive re-fetching on every
+      // mount/focus/router.invalidate() that staleTime:0 would cause.
+      staleTime: 5 * 60 * 1000,
       retry: 1,
     },
   },
@@ -24,6 +26,8 @@ const router = createRouter({
   basepath: import.meta.env.BASE_URL,
   context: { queryClient },
   scrollRestoration: true,
+  // defaultPreloadStaleTime:0 means preloaded data is always considered stale and
+  // refetched immediately — combine with staleTime above for predictable caching.
   defaultPreloadStaleTime: 0,
 });
 
@@ -33,10 +37,9 @@ declare module "@tanstack/react-router" {
   }
 }
 
+// __root.tsx's RootComponent wraps in <QueryClientProvider>; no extra wrapper needed here.
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <RouterProvider router={router} />
   </StrictMode>,
 );
