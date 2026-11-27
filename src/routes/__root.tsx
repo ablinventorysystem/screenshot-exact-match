@@ -96,7 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       // The CSS is already statically linked in index.html for the GitHub Pages SPA build.
       // HeadContent would inject a second <link> here causing a duplicate request; omit it.
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: `${import.meta.env.BASE_URL}favicon.ico`, type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
