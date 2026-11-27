@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Ban, Download, FileSpreadsheet, FileText, Printer } from "lucide-react";
+import { ArrowLeft, Ban, Download, FileSpreadsheet, FileText, Plus, Printer } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useCompany } from "@/lib/company";
 import { fmtDate, labelize, num, peso } from "@/lib/format";
 import { PageHeader } from "@/components/PageHeader";
 import { DataTable, type Column, type FetchArgs } from "@/components/DataTable";
+import { InvoiceForm } from "@/components/InvoiceForm";
 import { downloadBirPdf, type BirInvoicePdfData } from "@/components/BirInvoicePdf";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -34,6 +35,8 @@ interface InvRow {
 export const Route = createFileRoute("/_authenticated/invoices")({
   validateSearch: (s: Record<string, unknown>) => ({
     id: typeof s["id"] === "string" ? s["id"] : undefined,
+    isNew: s["new"] === "1" || s["new"] === true || s["isNew"] === true,
+    fromSo: typeof s["fromSo"] === "string" ? s["fromSo"] : undefined,
   }),
   head: () => ({
     meta: [
@@ -45,16 +48,26 @@ export const Route = createFileRoute("/_authenticated/invoices")({
 });
 
 function InvoicesPage() {
-  const { id: selectedId } = Route.useSearch();
+  const { id: selectedId, isNew, fromSo } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const { companyId } = useCompany();
   const [reportsOpen, setReportsOpen] = useState(false);
+
+  if (isNew || fromSo) {
+    return (
+      <InvoiceForm
+        fromSoId={fromSo}
+        onClose={() => void navigate({ search: { id: undefined, isNew: false, fromSo: undefined } })}
+        onSaved={(savedId) => void navigate({ search: { id: savedId, isNew: false, fromSo: undefined } })}
+      />
+    );
+  }
 
   if (selectedId) {
     return (
       <InvoiceDetailView
         invoiceId={selectedId}
-        onBack={() => void navigate({ search: { id: undefined } })}
+        onBack={() => void navigate({ search: { id: undefined, isNew: false, fromSo: undefined } })}
       />
     );
   }
@@ -88,7 +101,7 @@ function InvoicesPage() {
       header: "Ref #",
       sortable: true,
       cell: (r) => (
-        <button type="button" className="link-ref text-left" onClick={() => void navigate({ search: { id: r.id } })}>
+        <button type="button" className="link-ref text-left" onClick={() => void navigate({ search: { id: r.id, isNew: false, fromSo: undefined } })}>
           {r.ref_no}
         </button>
       ),
@@ -123,12 +136,18 @@ function InvoicesPage() {
     <div className="p-6">
       <PageHeader
         title="Invoices"
-        subtitle="BIR-registered Sales Invoices, Sales Journal (SLSP), and Form 2307 tracker"
+        subtitle="showing archived and unarchived invoices"
         actions={
-          <Button variant="outline" size="sm" onClick={() => setReportsOpen(true)}>
-            <FileSpreadsheet className="mr-1.5 h-4 w-4" />
-            Reports
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setReportsOpen(true)}>
+              <FileSpreadsheet className="mr-1.5 h-4 w-4" />
+              Reports
+            </Button>
+            <Button size="sm" onClick={() => void navigate({ search: { id: undefined, isNew: true, fromSo: undefined } })}>
+              <Plus className="mr-1.5 h-4 w-4" />
+              Add
+            </Button>
+          </div>
         }
       />
       {companyId && (
@@ -146,7 +165,7 @@ function InvoicesPage() {
             { value: "voided", label: "Voided" },
           ]}
           rowActions={[
-            { label: "Open / BIR Print", onSelect: (rows) => rows[0] && void navigate({ search: { id: rows[0].id } }) },
+            { label: "Open / BIR Print", onSelect: (rows) => rows[0] && void navigate({ search: { id: rows[0].id, isNew: false, fromSo: undefined } }) },
           ]}
         />
       )}
