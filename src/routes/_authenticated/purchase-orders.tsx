@@ -9,6 +9,8 @@ import { fmtDate, labelize, num, peso, todayISO } from "@/lib/format";
 import { roundQty } from "@/lib/inventory";
 import { PageHeader } from "@/components/PageHeader";
 import { DataTable, type Column, type FetchArgs } from "@/components/DataTable";
+import { PurchaseOrderForm as SharedPurchaseOrderForm } from "@/components/PurchaseOrderForm";
+import { writeAuditLog } from "@/lib/txn-lookups";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,9 +60,9 @@ function PurchaseOrdersPage() {
 
   if (id || isNew) {
     return (
-      <PurchaseOrderForm
+      <SharedPurchaseOrderForm
         poId={id}
-        onBack={() => void navigate({ search: { id: undefined, isNew: false } })}
+        onClose={() => void navigate({ search: { id: undefined, isNew: false } })}
         onSaved={(savedId) => void navigate({ search: { id: savedId, isNew: false } })}
       />
     );
