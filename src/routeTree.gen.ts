@@ -46,6 +46,7 @@ import { Route as AuthenticatedInvoicesNewRouteImport } from './routes/_authenti
 import { Route as AuthenticatedPurchaseOrdersNewRouteImport } from './routes/_authenticated/purchase-orders_.new'
 import { Route as AuthenticatedSalesOrdersNewRouteImport } from './routes/_authenticated/sales-orders_.new'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
+import { Route as AuthenticatedSettingsFormTemplatesRouteImport } from './routes/_authenticated/settings/form-templates'
 import { Route as AuthenticatedSettingsIntegrationsRouteImport } from './routes/_authenticated/settings/integrations'
 import { Route as AuthenticatedSettingsQuickbooksRouteImport } from './routes/_authenticated/settings/quickbooks'
 import { Route as AuthenticatedSettingsTaxRouteImport } from './routes/_authenticated/settings/tax'
@@ -247,6 +248,12 @@ const AuthenticatedSettingsIndexRoute =
     path: '/settings/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSettingsFormTemplatesRoute =
+  AuthenticatedSettingsFormTemplatesRouteImport.update({
+    id: '/settings/form-templates',
+    path: '/settings/form-templates',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIntegrationsRoute =
   AuthenticatedSettingsIntegrationsRouteImport.update({
     id: '/settings/integrations',
@@ -308,6 +315,7 @@ export interface FileRoutesByFullPath {
   '/invoices/new': typeof AuthenticatedInvoicesNewRoute
   '/purchase-orders/new': typeof AuthenticatedPurchaseOrdersNewRoute
   '/sales-orders/new': typeof AuthenticatedSalesOrdersNewRoute
+  '/settings/form-templates': typeof AuthenticatedSettingsFormTemplatesRoute
   '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -350,6 +358,7 @@ export interface FileRoutesByTo {
   '/invoices/new': typeof AuthenticatedInvoicesNewRoute
   '/purchase-orders/new': typeof AuthenticatedPurchaseOrdersNewRoute
   '/sales-orders/new': typeof AuthenticatedSalesOrdersNewRoute
+  '/settings/form-templates': typeof AuthenticatedSettingsFormTemplatesRoute
   '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -394,6 +403,7 @@ export interface FileRoutesById {
   '/_authenticated/invoices_/new': typeof AuthenticatedInvoicesNewRoute
   '/_authenticated/purchase-orders_/new': typeof AuthenticatedPurchaseOrdersNewRoute
   '/_authenticated/sales-orders_/new': typeof AuthenticatedSalesOrdersNewRoute
+  '/_authenticated/settings/form-templates': typeof AuthenticatedSettingsFormTemplatesRoute
   '/_authenticated/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/_authenticated/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/_authenticated/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -438,6 +448,7 @@ export interface FileRouteTypes {
     | '/invoices/new'
     | '/purchase-orders/new'
     | '/sales-orders/new'
+    | '/settings/form-templates'
     | '/settings/integrations'
     | '/settings/quickbooks'
     | '/settings/tax'
@@ -480,6 +491,7 @@ export interface FileRouteTypes {
     | '/invoices/new'
     | '/purchase-orders/new'
     | '/sales-orders/new'
+    | '/settings/form-templates'
     | '/settings/integrations'
     | '/settings/quickbooks'
     | '/settings/tax'
@@ -523,6 +535,7 @@ export interface FileRouteTypes {
     | '/_authenticated/invoices_/new'
     | '/_authenticated/purchase-orders_/new'
     | '/_authenticated/sales-orders_/new'
+    | '/_authenticated/settings/form-templates'
     | '/_authenticated/settings/integrations'
     | '/_authenticated/settings/quickbooks'
     | '/_authenticated/settings/tax'
@@ -797,6 +810,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings/form-templates': {
+      id: '/_authenticated/settings/form-templates'
+      path: '/settings/form-templates'
+      fullPath: '/settings/form-templates'
+      preLoaderRoute: typeof AuthenticatedSettingsFormTemplatesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/integrations': {
       id: '/_authenticated/settings/integrations'
       path: '/settings/integrations'
@@ -862,6 +882,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedInvoicesNewRoute: typeof AuthenticatedInvoicesNewRoute
   AuthenticatedPurchaseOrdersNewRoute: typeof AuthenticatedPurchaseOrdersNewRoute
   AuthenticatedSalesOrdersNewRoute: typeof AuthenticatedSalesOrdersNewRoute
+  AuthenticatedSettingsFormTemplatesRoute: typeof AuthenticatedSettingsFormTemplatesRoute
   AuthenticatedSettingsIntegrationsRoute: typeof AuthenticatedSettingsIntegrationsRoute
   AuthenticatedSettingsQuickbooksRoute: typeof AuthenticatedSettingsQuickbooksRoute
   AuthenticatedSettingsTaxRoute: typeof AuthenticatedSettingsTaxRoute
@@ -903,6 +924,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedInvoicesNewRoute: AuthenticatedInvoicesNewRoute,
   AuthenticatedPurchaseOrdersNewRoute: AuthenticatedPurchaseOrdersNewRoute,
   AuthenticatedSalesOrdersNewRoute: AuthenticatedSalesOrdersNewRoute,
+  AuthenticatedSettingsFormTemplatesRoute:
+    AuthenticatedSettingsFormTemplatesRoute,
   AuthenticatedSettingsIntegrationsRoute:
     AuthenticatedSettingsIntegrationsRoute,
   AuthenticatedSettingsQuickbooksRoute: AuthenticatedSettingsQuickbooksRoute,

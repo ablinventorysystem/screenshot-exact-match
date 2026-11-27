@@ -37,6 +37,7 @@ export const NAV: NavItem[] = [
   { title: "Settings", icon: Settings, children: [
     { title: "Company & Prefixes", to: "/settings" },
     { title: "Tax & BIR", to: "/settings/tax" },
+    { title: "Form templates", to: "/settings/form-templates" },
     { title: "Users & Roles", to: "/settings/users" },
     { title: "Integrations", to: "/settings/integrations" },
     { title: "QuickBooks Online", to: "/settings/quickbooks" },

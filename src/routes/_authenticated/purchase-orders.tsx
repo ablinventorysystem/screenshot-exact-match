@@ -68,10 +68,45 @@ function PurchaseOrdersPage() {
     );
   }
 
+  const qc = useQueryClient();
+
+  const batchUpdate = async (rows: PoRow[], patch: Record<string, unknown>, actionName: string) => {
+    if (!companyId || rows.length === 0) return;
+    let count = 0;
+    for (const r of rows) {
+      const { error } = await supabase.from("transactions").update(patch as any).eq("id", r.id);
+      if (!error) {
+        count++;
+        await writeAuditLog(companyId, actionName, "purchase_order", r.id, patch);
+      }
+    }
+    toast.success(`${count} updated`);
+    await qc.invalidateQueries({ queryKey: ["purchase_orders", companyId] });
+  };
+
+  const batchApprove = async (rows: PoRow[]) => {
+    const { data: { user } } = await supabase.auth.getUser();
+    await batchUpdate(
+      rows,
+      { approved: true, approved_by: user?.id ?? null, approved_at: new Date().toISOString() },
+      "approve",
+    );
+  };
+
+  const batchDelete = async (rows: PoRow[]) => {
+    const eligible = rows.filter((r: any) => !r.approved && r.status !== "received" && r.status !== "partially_received");
+    if (eligible.length === 0) {
+      toast.error("Only unapproved POs with no receipts can be deleted");
+      return;
+    }
+    if (!window.confirm(`Delete ${eligible.length} purchase order(s)?`)) return;
+    await batchUpdate(eligible, { voided: true, status: "void" }, "delete");
+  };
+
   const fetchPage = async (a: FetchArgs) => {
     let q = supabase
       .from("transactions")
-      .select("id, ref_no, txn_date, due_date, party_name, status, voided, drop_ship, total", { count: "exact" })
+      .select("id, ref_no, txn_date, due_date, party_name, status, voided, drop_ship, total, approved, archived, closed, vendor_confirmed, comment", { count: "exact" })
       .eq("company_id", companyId)
       .eq("type", "purchase_order");
     if (a.filter === "open") q = q.in("status", ["open", "partially_received"]).eq("voided", false);
@@ -84,7 +119,7 @@ function PurchaseOrdersPage() {
       .order("ref_no", { ascending: false })
       .range((a.page - 1) * a.pageSize, a.page * a.pageSize - 1);
     if (error) throw error;
-    return { rows: (data ?? []) as PoRow[], total: count ?? 0 };
+    return { rows: ((data ?? []) as unknown) as PoRow[], total: count ?? 0 };
   };
 
   const columns: Column<PoRow>[] = [
@@ -93,34 +128,65 @@ function PurchaseOrdersPage() {
       header: "Ref #",
       sortable: true,
       cell: (r) => (
-        <button type="button" className="link-ref text-left" onClick={() => void navigate({ search: { id: r.id, isNew: false } })}>
-          {r.ref_no}
-        </button>
+        <div className="flex flex-col gap-0.5">
+          <button type="button" className="link-ref text-left" onClick={() => void navigate({ search: { id: r.id, isNew: false } })}>
+            {r.ref_no}
+          </button>
+          <span className={`inline-flex items-center gap-1 text-[10px] ${r.status === "received" ? "text-emerald-600" : "text-muted-foreground"}`}>
+            <PackageCheck className="h-3 w-3" />
+            {r.status === "received" ? "Received" : "Pending"}
+          </span>
+        </div>
       ),
       csv: (r) => r.ref_no,
     },
-    { key: "date", header: "Order Date", sortable: true, cell: (r) => fmtDate(r.txn_date), csv: (r) => fmtDate(r.txn_date) },
-    { key: "due", header: "Expected Date", cell: (r) => fmtDate(r.due_date) || "—", csv: (r) => fmtDate(r.due_date) },
+    { key: "date", header: "Date", sortable: true, cell: (r) => fmtDate(r.txn_date), csv: (r) => fmtDate(r.txn_date) },
+    {
+      key: "approved",
+      header: "Approved",
+      cell: (r: any) => (r.approved ? "Yes" : "No"),
+      csv: (r: any) => (r.approved ? "Yes" : "No"),
+    },
     { key: "vendor", header: "Vendor", sortable: true, cell: (r) => r.party_name ?? "—", csv: (r) => r.party_name ?? "" },
+    { key: "terms", header: "Terms", cell: () => "Net 30", csv: () => "Net 30" },
+    {
+      key: "total",
+      header: "Amount",
+      sortable: true,
+      cell: (r) => <div className="text-right font-medium">₱{peso(r.total)}</div>,
+      csv: (r) => String(r.total),
+    },
     {
       key: "status",
       header: "Status",
-      cell: (r) => (
-        <div className="flex items-center gap-1.5">
-          <Badge variant={r.voided ? "destructive" : r.status === "received" ? "secondary" : "outline"}>
-            {r.voided ? "Voided" : labelize(r.status)}
-          </Badge>
-          {r.drop_ship && <Badge variant="outline">Drop-ship</Badge>}
-        </div>
+      cell: (r: any) => (
+        <Badge variant={r.voided ? "destructive" : r.closed || r.status === "closed" ? "secondary" : "outline"}>
+          {r.voided ? "Voided" : r.closed || r.status === "closed" ? "Closed" : "Open"}
+        </Badge>
       ),
       csv: (r) => r.status,
     },
-    { key: "total", header: "Total", sortable: true, cell: (r) => `₱${peso(r.total)}`, csv: (r) => String(r.total) },
+    {
+      key: "received",
+      header: "Received",
+      cell: (r) => (r.status === "received" ? "All" : r.status === "partially_received" ? "Partial" : "—"),
+      csv: (r) => (r.status === "received" ? "All" : r.status === "partially_received" ? "Partial" : ""),
+    },
+    {
+      key: "comment",
+      header: "Comment",
+      cell: (r: any) => (
+        <span className="max-w-[160px] truncate text-xs text-muted-foreground">
+          {r.comment || "—"}
+        </span>
+      ),
+      csv: (r: any) => r.comment ?? "",
+    },
   ];
 
   return (
     <div className="p-6">
-      <PageHeader title="Purchase orders" subtitle="Create and track vendor purchase orders" />
+      <PageHeader title="Purchase orders" subtitle="showing archived and unarchived open and closed purchase orders" />
       {companyId && (
         <DataTable<PoRow>
           id="purchase_orders"
@@ -136,6 +202,15 @@ function PurchaseOrdersPage() {
           ]}
           rowActions={[
             { label: "Open PO", onSelect: (rows) => rows[0] && void navigate({ search: { id: rows[0].id, isNew: false } }) },
+            { label: "Approve", onSelect: (rows) => void batchApprove(rows) },
+            { label: "Archive", onSelect: (rows) => void batchUpdate(rows, { archived: true }, "archive") },
+            { label: "Unarchive", onSelect: (rows) => void batchUpdate(rows, { archived: false }, "unarchive") },
+            { label: "Open", onSelect: (rows) => void batchUpdate(rows, { closed: false, status: "open" }, "open") },
+            { label: "Close", onSelect: (rows) => void batchUpdate(rows, { closed: true, status: "closed" }, "close") },
+            { label: "Mark as confirmed", onSelect: (rows) => void batchUpdate(rows, { vendor_confirmed: true }, "confirm") },
+            { label: "Mark as unconfirmed", onSelect: (rows) => void batchUpdate(rows, { vendor_confirmed: false }, "unconfirm") },
+            { label: "Add to sync", onSelect: (rows) => void batchUpdate(rows, { qb_sync_status: "unsent" }, "add_to_sync") },
+            { label: "Delete", onSelect: (rows) => void batchDelete(rows) },
           ]}
           {...(canWrite ? { onAdd: () => void navigate({ search: { id: undefined, isNew: true } }) } : {})}
         />
