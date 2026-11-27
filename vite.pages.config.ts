@@ -7,7 +7,6 @@ import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import tailwindcss from "@tailwindcss/vite";
-import tsConfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
@@ -74,15 +73,30 @@ export default defineConfig(({ mode }) => {
       TanStackRouterVite({ target: "react", autoCodeSplitting: true }),
       react(),
       tailwindcss(),
-      tsConfigPaths(),
     ],
+
+    resolve: {
+      tsconfigPaths: true,
+    },
 
     build: {
       outDir: "dist",
       emptyOutDir: true,
+      minify: true,
       // Standard SPA — single entry point; no SSR.
       rollupOptions: {
         input: "index.html",
+        output: {
+          manualChunks(id) {
+            if (!id.includes("node_modules")) return;
+            if (id.includes("/react-dom/") || id.includes("/react/")) return "vendor-react";
+            if (id.includes("/@supabase/")) return "vendor-supabase";
+            if (id.includes("/@tanstack/")) return "vendor-router";
+            if (id.includes("/@radix-ui/") || id.includes("/lucide-react/") || id.includes("/sonner/")) {
+              return "vendor-ui";
+            }
+          },
+        },
       },
     },
 
