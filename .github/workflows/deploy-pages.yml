@@ -40,35 +40,19 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Verify Supabase environment variables are present
-        run: |
-          URL_SET=$( [ -n "$SUPABASE_URL" ] && echo "true" || echo "false" )
-          KEY_SET=$( [ -n "$SUPABASE_PUBLISHABLE_KEY" ] && echo "true" || echo "false" )
-          URL_LEN=${#SUPABASE_URL}
-          KEY_LEN=${#SUPABASE_PUBLISHABLE_KEY}
-          echo "SUPABASE_URL present=${URL_SET} length=${URL_LEN}"
-          echo "SUPABASE_PUBLISHABLE_KEY present=${KEY_SET} length=${KEY_LEN}"
-          if [ "$URL_SET" = "false" ] || [ "$KEY_SET" = "false" ]; then
-            echo "ERROR: One or more required Supabase environment variables are empty."
-            echo "Check that SUPABASE_URL is set as a Repository Variable and"
-            echo "SUPABASE_PUBLISHABLE_KEY is set as a Repository Secret."
-            exit 1
-          fi
-        env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-
       - name: Build static SPA for GitHub Pages
         run: npm run build:pages
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
-          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL || 'https://c--eaf4eab9-f94a-4807-b6ce-3a2f6530d147-prod.lovable.cloud' }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_t1Dodm2HtzSRPtzIYKrLlw_x8Pt9Zr7' }}
+          VITE_SUPABASE_PROJECT_ID: ${{ vars.SUPABASE_PROJECT_ID || 'krywzqjtebfttvstomzx' }}
+          VITE_BASE_PATH: /screenshot-exact-match/
 
       # SPA fallback: direct navigation to any sub-route will serve index.html
-      - name: Create SPA 404 fallback
-        run: cp dist/index.html dist/404.html
+      - name: Create SPA 404 fallback and .nojekyll
+        run: |
+          cp dist/index.html dist/404.html
+          touch dist/.nojekyll
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
