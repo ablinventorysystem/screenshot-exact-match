@@ -135,7 +135,7 @@ function SalesOrdersPage() {
   );
 }
 
-function SalesOrderForm({
+export function SalesOrderForm({
   soId,
   onBack,
   onSavedId,

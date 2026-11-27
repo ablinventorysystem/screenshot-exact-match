@@ -42,6 +42,9 @@ import { Route as AuthenticatedTraceRouteImport } from './routes/_authenticated/
 import { Route as AuthenticatedTransfersRouteImport } from './routes/_authenticated/transfers'
 import { Route as AuthenticatedVendorsRouteImport } from './routes/_authenticated/vendors'
 import { Route as AuthenticatedWorkOrdersRouteImport } from './routes/_authenticated/work-orders'
+import { Route as AuthenticatedInvoicesNewRouteImport } from './routes/_authenticated/invoices_.new'
+import { Route as AuthenticatedPurchaseOrdersNewRouteImport } from './routes/_authenticated/purchase-orders_.new'
+import { Route as AuthenticatedSalesOrdersNewRouteImport } from './routes/_authenticated/sales-orders_.new'
 import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authenticated/settings/index'
 import { Route as AuthenticatedSettingsIntegrationsRouteImport } from './routes/_authenticated/settings/integrations'
 import { Route as AuthenticatedSettingsQuickbooksRouteImport } from './routes/_authenticated/settings/quickbooks'
@@ -220,6 +223,24 @@ const AuthenticatedWorkOrdersRoute = AuthenticatedWorkOrdersRouteImport.update({
   path: '/work-orders',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedInvoicesNewRoute =
+  AuthenticatedInvoicesNewRouteImport.update({
+    id: '/invoices_/new',
+    path: '/invoices/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPurchaseOrdersNewRoute =
+  AuthenticatedPurchaseOrdersNewRouteImport.update({
+    id: '/purchase-orders_/new',
+    path: '/purchase-orders/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSalesOrdersNewRoute =
+  AuthenticatedSalesOrdersNewRouteImport.update({
+    id: '/sales-orders_/new',
+    path: '/sales-orders/new',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsIndexRoute =
   AuthenticatedSettingsIndexRouteImport.update({
     id: '/settings/',
@@ -284,6 +305,9 @@ export interface FileRoutesByFullPath {
   '/transfers': typeof AuthenticatedTransfersRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/invoices/new': typeof AuthenticatedInvoicesNewRoute
+  '/purchase-orders/new': typeof AuthenticatedPurchaseOrdersNewRoute
+  '/sales-orders/new': typeof AuthenticatedSalesOrdersNewRoute
   '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -323,6 +347,9 @@ export interface FileRoutesByTo {
   '/transfers': typeof AuthenticatedTransfersRoute
   '/vendors': typeof AuthenticatedVendorsRoute
   '/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/invoices/new': typeof AuthenticatedInvoicesNewRoute
+  '/purchase-orders/new': typeof AuthenticatedPurchaseOrdersNewRoute
+  '/sales-orders/new': typeof AuthenticatedSalesOrdersNewRoute
   '/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -364,6 +391,9 @@ export interface FileRoutesById {
   '/_authenticated/transfers': typeof AuthenticatedTransfersRoute
   '/_authenticated/vendors': typeof AuthenticatedVendorsRoute
   '/_authenticated/work-orders': typeof AuthenticatedWorkOrdersRoute
+  '/_authenticated/invoices_/new': typeof AuthenticatedInvoicesNewRoute
+  '/_authenticated/purchase-orders_/new': typeof AuthenticatedPurchaseOrdersNewRoute
+  '/_authenticated/sales-orders_/new': typeof AuthenticatedSalesOrdersNewRoute
   '/_authenticated/settings/integrations': typeof AuthenticatedSettingsIntegrationsRoute
   '/_authenticated/settings/quickbooks': typeof AuthenticatedSettingsQuickbooksRoute
   '/_authenticated/settings/tax': typeof AuthenticatedSettingsTaxRoute
@@ -405,6 +435,9 @@ export interface FileRouteTypes {
     | '/transfers'
     | '/vendors'
     | '/work-orders'
+    | '/invoices/new'
+    | '/purchase-orders/new'
+    | '/sales-orders/new'
     | '/settings/integrations'
     | '/settings/quickbooks'
     | '/settings/tax'
@@ -444,6 +477,9 @@ export interface FileRouteTypes {
     | '/transfers'
     | '/vendors'
     | '/work-orders'
+    | '/invoices/new'
+    | '/purchase-orders/new'
+    | '/sales-orders/new'
     | '/settings/integrations'
     | '/settings/quickbooks'
     | '/settings/tax'
@@ -484,6 +520,9 @@ export interface FileRouteTypes {
     | '/_authenticated/transfers'
     | '/_authenticated/vendors'
     | '/_authenticated/work-orders'
+    | '/_authenticated/invoices_/new'
+    | '/_authenticated/purchase-orders_/new'
+    | '/_authenticated/sales-orders_/new'
     | '/_authenticated/settings/integrations'
     | '/_authenticated/settings/quickbooks'
     | '/_authenticated/settings/tax'
@@ -730,6 +769,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedWorkOrdersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/invoices_/new': {
+      id: '/_authenticated/invoices_/new'
+      path: '/invoices/new'
+      fullPath: '/invoices/new'
+      preLoaderRoute: typeof AuthenticatedInvoicesNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/purchase-orders_/new': {
+      id: '/_authenticated/purchase-orders_/new'
+      path: '/purchase-orders/new'
+      fullPath: '/purchase-orders/new'
+      preLoaderRoute: typeof AuthenticatedPurchaseOrdersNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/sales-orders_/new': {
+      id: '/_authenticated/sales-orders_/new'
+      path: '/sales-orders/new'
+      fullPath: '/sales-orders/new'
+      preLoaderRoute: typeof AuthenticatedSalesOrdersNewRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/': {
       id: '/_authenticated/settings/'
       path: '/settings'
@@ -799,6 +859,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedTransfersRoute: typeof AuthenticatedTransfersRoute
   AuthenticatedVendorsRoute: typeof AuthenticatedVendorsRoute
   AuthenticatedWorkOrdersRoute: typeof AuthenticatedWorkOrdersRoute
+  AuthenticatedInvoicesNewRoute: typeof AuthenticatedInvoicesNewRoute
+  AuthenticatedPurchaseOrdersNewRoute: typeof AuthenticatedPurchaseOrdersNewRoute
+  AuthenticatedSalesOrdersNewRoute: typeof AuthenticatedSalesOrdersNewRoute
   AuthenticatedSettingsIntegrationsRoute: typeof AuthenticatedSettingsIntegrationsRoute
   AuthenticatedSettingsQuickbooksRoute: typeof AuthenticatedSettingsQuickbooksRoute
   AuthenticatedSettingsTaxRoute: typeof AuthenticatedSettingsTaxRoute
@@ -837,6 +900,9 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedTransfersRoute: AuthenticatedTransfersRoute,
   AuthenticatedVendorsRoute: AuthenticatedVendorsRoute,
   AuthenticatedWorkOrdersRoute: AuthenticatedWorkOrdersRoute,
+  AuthenticatedInvoicesNewRoute: AuthenticatedInvoicesNewRoute,
+  AuthenticatedPurchaseOrdersNewRoute: AuthenticatedPurchaseOrdersNewRoute,
+  AuthenticatedSalesOrdersNewRoute: AuthenticatedSalesOrdersNewRoute,
   AuthenticatedSettingsIntegrationsRoute:
     AuthenticatedSettingsIntegrationsRoute,
   AuthenticatedSettingsQuickbooksRoute: AuthenticatedSettingsQuickbooksRoute,
